@@ -6,7 +6,7 @@ import rsbc_st as rsbc
 def main():
     sliderStart = 0.0
     sliderEnd = 0.0
-    mode = 'int'
+    isInt = True
 
     hyP = st.radio(
         "Choose a hyperparameter",
@@ -26,17 +26,17 @@ def main():
     elif hyP == 'RHO_STAR':
         sliderStart = -1.0
         sliderEnd = 1.0
-        mode = 'decimal'
+        isInt = False
     else:
         sliderStart = 0.00
         sliderEnd = 0.20
-        mode = 'decimal'
+        isInt = False
 
     rangeStart = st.number_input("Select range of start", sliderStart, sliderEnd)
     rangeEnd = st.number_input("Select range of end", rangeStart + 0.01, sliderEnd)
     rangeInterval = st.number_input("sekect range of interval", 0.01, sliderEnd / 2.0)
 
-    if mode == 'int':
+    if isInt:
         rangeStart = math.floor(rangeStart)
         rangeEnd = math.floor(rangeEnd)
         rangeInterval = math.ceil(rangeInterval)
