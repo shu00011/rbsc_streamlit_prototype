@@ -9,6 +9,8 @@ import random
 import datetime
 import pickle
 import time
+import plotly.figure_factory as ff
+import scipy
 
 MAXITER = 30  # counter　n回まで
 EXPERIMENT_NUMBER = 30
@@ -48,14 +50,9 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy):
     →この繰り返しがcounter
     """
     y = random.sample(list(x), s)
-    y1 = y[:int(len(y) * 0.5)]
+    y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
     y2 = y[int(len(y) * 0.5):]
-    print(y1)
-    print(y2)
     rho = get_rbsc(y1, y2)
-    #TODO: IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices
-#     A=xs[y1]
-#     B=xs[y2]
 
     counter = 0
 
@@ -147,10 +144,7 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy):
     counters[l][s][rho_star][e].append(counter)
     rho_accuracy[l][s][rho_star][e].append(np.abs(rho - rho_star))
 
-    print(y1)
-    print(y2)
-
-    return counters, rho_accuracy
+    return counters, rho_accuracy, y1, y2
 
 
 def init(userListsize, userSelectlist, userRhostar, userEps):
@@ -202,6 +196,8 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
 def rsbc(userListsize, userSelectlist, userRhostar, userEps):
     start_time = time.time()
 
+    NBINS = 20  # 階級数．ヒストグラムの棒の数？
+
     MAXITER, \
     EXPERIMENT_NUMBER, \
     LISTSIZE, \
@@ -219,13 +215,29 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps):
     if LISTSIZE <= SELECTLIST:
         return
 
-    counters, rho_accuracy= my_snippet( \
+    counters, rho_accuracy, A, B= my_snippet( \
         LISTSIZE, \
         SELECTLIST, \
         RHO_STAR, \
         EPS, \
         counters, \
         rho_accuracy)
+
+#     group_labels=['1','2','3','4','5','6','7','8','9','10']
+
+    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
+    st.bar_chart(A_hist)
+
+    # PlotlyError: Oops! Your data lists or ndarrays should be the same length.
+#     A_hist_list=[]
+#     A_hist_list.append(A_hist)
+#     figA=ff.create_distplot(A_hist_list, group_labels,bin_size=10)
+#     st.plotly_chart(figA, use_container_width=true)
+
+    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
+    st.bar_chart(B_hist)
+#     figB=ff.create_distplot(B_hist, group_labels,bin_size=10)
+#     st.plotly_chart(figB, use_container_width=true)
 
     st.write('-------------------------')
     st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
