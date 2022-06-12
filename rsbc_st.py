@@ -11,6 +11,7 @@ import pickle
 import time
 import plotly.figure_factory as ff
 import scipy
+import pandas as pd
 
 MAXITER = 30  # counter　n回まで
 EXPERIMENT_NUMBER = 30
@@ -193,10 +194,10 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
         rho_accuracy
 
 # 恐らくmain関数．
-def rsbc(userListsize, userSelectlist, userRhostar, userEps):
+def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins):
     start_time = time.time()
 
-    NBINS = 20  # 階級数．ヒストグラムの棒の数？
+    NBINS = userNBins  # 階級数．ヒストグラムの棒の数？
 
     MAXITER, \
     EXPERIMENT_NUMBER, \
@@ -223,28 +224,18 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps):
         counters, \
         rho_accuracy)
 
-#     group_labels=['1','2','3','4','5','6','7','8','9','10']
-
-    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-    st.bar_chart(A_hist)
-
-    # PlotlyError: Oops! Your data lists or ndarrays should be the same length.
-#     A_hist_list=[]
-#     A_hist_list.append(A_hist)
-#     figA=ff.create_distplot(A_hist_list, group_labels,bin_size=10)
-#     st.plotly_chart(figA, use_container_width=true)
-
-    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
-    st.bar_chart(B_hist)
-#     figB=ff.create_distplot(B_hist, group_labels,bin_size=10)
-#     st.plotly_chart(figB, use_container_width=true)
-
     st.write('-------------------------')
     st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
         np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS]), \
         np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])))
         # meanは引数の平均
         # 出力結果は反復回数の平均値
+
+    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
+    st.bar_chart(A_hist)
+
+    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
+    st.bar_chart(B_hist)
 
     # histogram(ヒストグラムを計算するための入力データ,bins,density)
     # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
@@ -253,30 +244,25 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps):
     # 戻り値は2つの配列．
     # histはヒストログラムの値．
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
-#     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-#     print(A_hist)
-#     print(bin_edges)
-#     print(bin_edges[:-1])
-#
-#     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
-#     print(B_hist)
-#     print(bin_edges)
-#     print(bin_edges[:-1])
 
-#     now = datetime.datetime.now()
-#     fpath = str(now.year) + '_' + \
-#             str(now.month).zfill(2) + '_' + \
-#             str(now.day).zfill(2) + '_' + \
-#             str(now.hour).zfill(2) + '_' + \
-#             str(now.minute).zfill(2) + '_' + \
-#             str(now.second).zfill(2) + '_' + \
-#             'input_normal_counters_rho_acc_briefs.pkl'
-#
-#     with open(fpath, 'wb') as handle:
-#         pickle.dump([counters, rho_accuracy], \
-#                     handle, \
-#                     protocol=pickle.HIGHEST_PROTOCOL)
+    df_all=[]
 
-    # Time elapsed 4412.87 sec
+    for a, b in zip(A_hist,B_hist):
+        try:
+           text=[(str(a) + ' '+str(b))]
+           df_all.append(text)
+           print(text)
+        except:
+            print('none')
+
+    csv=pd.DataFrame(df_all).to_csv()
+
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='output.csv',
+        mime='text/csv'
+    )
+
     elapsed_time = time.time() - start_time
     st.success('Time elapsed %2.2f sec' % elapsed_time)

@@ -26,13 +26,18 @@ def main():
         userEps=st.number_input('Insert EPS')
         st.info(f'Your EPS: {userEps}')
 
+   st.write("Number of bins")
+   userNBins=math.floor(st.number_input('Insert number of bins'))
+   st.info(f'Your number of bins: {userNBins}')
+
    if st.button('result'):
         with st.spinner('running...'):
             rsbc.rsbc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
-                userEps
+                userEps,
+                userNBins
             )
 
         st.success('Done!')
