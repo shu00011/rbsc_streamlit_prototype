@@ -247,7 +247,7 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins):
 
     df_all=[]
 
-    for a, b in zip(A_hist,B_hist):
+    for a, b in zip(A,B):
         try:
            text=[(str(a) + ' '+str(b))]
            df_all.append(text)
