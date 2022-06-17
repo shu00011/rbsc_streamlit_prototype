@@ -38,11 +38,13 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy):
     # 正規分布に従った乱数の生成
     # normal（平均，標準偏差，出力配列のサイズ）
     # 平均が0で標準偏差が1→標準正規分布
-    x = np.random.normal(loc=0, scale=1, size=l)
+    x = np.random.normal(loc=0, scale=1, size=l)    # type:numpy.ndarray
     # x = np.random.exponential(scale = 1, size = l)
     # x = np.random.uniform(low = 1, high = 5, size = l)
     # x = np.random.vonmises(mu = 0, kappa = np.pi/10, size = l)
     # x = np.random.lognormal(mean = 0.0, sigma = 1.0, size = l)
+
+    print(x)
 
     xs=np.sort(x) # xを昇順にsort
 
@@ -251,9 +253,9 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins):
         try:
            text=[(str(a) + ' '+str(b))]
            df_all.append(text)
-           print(text)
+#            print(text)
         except:
-            print('none')
+             print('none')
 
     csv=pd.DataFrame(df_all).to_csv()
 
