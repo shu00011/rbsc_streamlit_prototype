@@ -43,6 +43,7 @@ def main():
 
         df=pd.read_csv(uploaded_file)
         st.dataframe(df)
+        print(df)
 #         # To convert to a string based IO:
 #         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
 # #         st.write(stringio)
