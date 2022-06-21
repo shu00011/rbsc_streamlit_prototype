@@ -54,6 +54,7 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy, df):
     全体集合xの中から大きさsのyを取り出して2等分する
     →この繰り返しがcounter
     """
+    # TODO:ValueError: Sample larger than population or is negative
     y = random.sample(list(x), s)
     y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
     y2 = y[int(len(y) * 0.5):]
