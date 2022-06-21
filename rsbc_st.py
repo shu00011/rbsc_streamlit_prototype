@@ -30,7 +30,7 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 
 # 標準偏差
-def my_snippet(l, s, rho_star, e, counters, rho_accuracy):
+def my_snippet(l, s, rho_star, e, counters, rho_accuracy, df):
     # TODO: 31-36どれが効率がいいか？
     # TODO: なぜこの基準にするのか？
     # TODO: パラメータはどの範囲の条件がいいとかの結果はあるか？→論文を見直す．
@@ -38,11 +38,13 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy):
     # 正規分布に従った乱数の生成
     # normal（平均，標準偏差，出力配列のサイズ）
     # 平均が0で標準偏差が1→標準正規分布
-    x = np.random.normal(loc=0, scale=1, size=l)    # type:numpy.ndarray
+#     x = np.random.normal(loc=0, scale=1, size=l)    # type:numpy.ndarray
     # x = np.random.exponential(scale = 1, size = l)
     # x = np.random.uniform(low = 1, high = 5, size = l)
     # x = np.random.vonmises(mu = 0, kappa = np.pi/10, size = l)
     # x = np.random.lognormal(mean = 0.0, sigma = 1.0, size = l)
+
+    x=df
 
     print(x)
 
@@ -196,7 +198,7 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
         rho_accuracy
 
 # 恐らくmain関数．
-def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins):
+def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
     start_time = time.time()
 
     NBINS = userNBins  # 階級数．ヒストグラムの棒の数？
@@ -224,7 +226,8 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins):
         RHO_STAR, \
         EPS, \
         counters, \
-        rho_accuracy)
+        rho_accuracy, \
+        df)
 
     st.write('-------------------------')
     st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \

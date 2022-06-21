@@ -38,41 +38,32 @@ def main():
    st.info(f'Your number of bins: {userNBins}')
 
 # https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
-   uploaded_file = st.file_uploader('Choose a file')
+   uploaded_file = st.file_uploader('Choose a file',type='csv')
    if uploaded_file is not None:
-#         # To read file as bytes:
-#         bytes_data = uploaded_file.getvalue()
-#         st.write(bytes_data)
 
-        # To convert to a string based IO:
-        stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-#         st.write(stringio)
-
-        # To read file as string:
-        string_data = stringio.read()
-        st.write(string_data)
-
-        # ----ここから　作業中．うまく動かない．
-        # TODO: floatでimportできるように．
-        csv_reader=csv.reader(stringio)#delimiter='\n'
-
-        # TODO: 下2行のコメントアウト外すとなぜか画面がレンダリングされない
-#         for row in csv_reader:
-#             yield[float(i) for i in row]
-        read_data=[float(row) for row in csv_reader]
-        st.write(read_data)
-
-        # TODO: stringをnumpyのarrayに変換
-#         stringArray=np.array([string_data])
-#         floatArray=stringArray.np.astype(float)
-#         csv_data=open_csv_numpy_loadtxt(floatArray)
-#         st.write(csv_data)
-
-        # ---- ここまで
-
-#         # Can be used wherever a "file-like" object is accepted:
-#         dataframe = pd.read_csv(uploaded_file)
-#         st.write(dataframe)
+        df=pd.read_csv(uploaded_file)
+        st.dataframe(df)
+#         # To convert to a string based IO:
+#         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
+# #         st.write(stringio)
+#
+#         # To read file as string:
+#         string_data = stringio.read()
+#         st.write(string_data)
+#
+#         # ----ここから　作業中．うまく動かない．
+#         # TODO: floatでimportできるように．
+#         csv_reader=csv.reader(stringio)#delimiter='\n'
+#
+#         # TODO: 下2行のコメントアウト外すとなぜか画面がレンダリングされない
+# #         for row in csv_reader:
+# #             yield[float(i) for i in row]
+#         read_data=[float(row) for row in csv_reader]
+#         st.write(read_data)
+#
+#         # TODO: stringをnumpyのarrayに変換
+#
+#         # ---- ここまで
 
    if st.button('result'):
         with st.spinner('running...'):
@@ -81,7 +72,8 @@ def main():
                 userSelectlist,
                 userRhostar,
                 userEps,
-                userNBins
+                userNBins,
+                df
             )
 
         st.success('Done!')
