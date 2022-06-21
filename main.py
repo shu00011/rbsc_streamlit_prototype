@@ -4,9 +4,10 @@ import io
 import pandas as pd
 import numpy as np
 import rsbc_st as rsbc
+import csv
 
 def open_csv_numpy_loadtxt(filename):
-   data=np.loadtxt(filename, delimiter=" ")
+   data=np.loadtxt(filename, delimiter="\n")
    return data
 
 def main():
@@ -45,15 +46,29 @@ def main():
 
         # To convert to a string based IO:
         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-        st.write(stringio)
+#         st.write(stringio)
 
         # To read file as string:
         string_data = stringio.read()
         st.write(string_data)
 
+        # ----ここから　作業中．うまく動かない．
+        # TODO: floatでimportできるように．
+        csv_reader=csv.reader(stringio)#delimiter='\n'
+
+        # TODO: 下2行のコメントアウト外すとなぜか画面がレンダリングされない
+#         for row in csv_reader:
+#             yield[float(i) for i in row]
+        read_data=[float(row) for row in csv_reader]
+        st.write(read_data)
+
         # TODO: stringをnumpyのarrayに変換
-        csv_data=open_csv_numpy_loadtxt(string_data)
-        st.write(csv_data)
+#         stringArray=np.array([string_data])
+#         floatArray=stringArray.np.astype(float)
+#         csv_data=open_csv_numpy_loadtxt(floatArray)
+#         st.write(csv_data)
+
+        # ---- ここまで
 
 #         # Can be used wherever a "file-like" object is accepted:
 #         dataframe = pd.read_csv(uploaded_file)
