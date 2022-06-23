@@ -40,31 +40,9 @@ def main():
 # https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
    uploaded_file = st.file_uploader('Choose a file',type='csv')
    if uploaded_file is not None:
-
-        df=pd.read_csv(uploaded_file)
-        st.dataframe(df)
-        print(df)
-#         # To convert to a string based IO:
-#         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-# #         st.write(stringio)
-#
-#         # To read file as string:
-#         string_data = stringio.read()
-#         st.write(string_data)
-#
-#         # ----ここから　作業中．うまく動かない．
-#         # TODO: floatでimportできるように．
-#         csv_reader=csv.reader(stringio)#delimiter='\n'
-#
-#         # TODO: 下2行のコメントアウト外すとなぜか画面がレンダリングされない
-# #         for row in csv_reader:
-# #             yield[float(i) for i in row]
-#         read_data=[float(row) for row in csv_reader]
-#         st.write(read_data)
-#
-#         # TODO: stringをnumpyのarrayに変換
-#
-#         # ---- ここまで
+        stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
+        string_data = stringio.read()
+        read_data=[float(row) for row in string_data.split('\r\n')]
 
    if st.button('result'):
         with st.spinner('running...'):
@@ -74,7 +52,7 @@ def main():
                 userRhostar,
                 userEps,
                 userNBins,
-                df
+                read_data
             )
 
         st.success('Done!')
