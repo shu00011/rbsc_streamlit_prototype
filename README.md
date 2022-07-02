@@ -1,7 +1,7 @@
 # rsbc_streamlit_prototype
 
 ## 概要
-RSBCアルゴリズムをWebアプリケーション上で利用できるようにしました．
+RBSCアルゴリズムをWebアプリケーション上で利用できるようにしました．
 
 ## 使用技術
 - Python 3.9.5

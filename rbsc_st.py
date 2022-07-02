@@ -74,8 +74,6 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 def my_snippet(l, s, rho_star, e, counters, rho_accuracy, df):
     x=df
 
-    print(x)
-
     xs=np.sort(x) # xを昇順にsort
 
     """
@@ -187,9 +185,9 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
     LISTSIZE：数の集合
     SELECTLIST：LISTSIZEから取り出す部分集合の大きさ
     （実行不可能なのはLISTSIZE<SELECTLISTのとき．
-    RHO_STAR：RSBC係数p*
-        RSBC_SubGenは求めたいpに近づける仕組み．
-        RSBC係数p
+    RHO_STAR：RBSC係数p*
+        RBSC_SubGenは求めたいpに近づける仕組み．
+        RBSC係数p
             総当たり．仮説に反する証拠が多ければpは低くなる．
     EPS：誤差e．大きければアルゴリズムはすぐに収束する．
     """
@@ -227,7 +225,7 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
         rho_accuracy
 
 # 恐らくmain関数．
-def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
+def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
     start_time = time.time()
 
     NBINS = userNBins  # 階級数．ヒストグラムの棒の数？

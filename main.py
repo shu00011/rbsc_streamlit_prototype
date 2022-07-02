@@ -3,7 +3,7 @@ import math
 import io
 import pandas as pd
 import numpy as np
-import rsbc_st as rsbc
+import rbsc_st as rbsc
 import csv
 
 def open_csv_numpy_loadtxt(filename):
@@ -45,7 +45,7 @@ def main():
 
    if st.button('result'):
         with st.spinner('running...'):
-            elapsed_time = rsbc.rsbc(
+            elapsed_time = rbsc.rbsc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
