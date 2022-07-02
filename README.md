@@ -1,4 +1,4 @@
-# rsbc_streamlit_prototype
+# rbsc_streamlit_prototype
 
 ## 概要
 RBSCアルゴリズムをWebアプリケーション上で利用できるようにしました．
