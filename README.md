@@ -33,7 +33,7 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 現在はstreamlit+Pythonで全てPythonで実装していますが，
 
 - フロントエンド：Next
-- データベース：firebase
+- データベース：MySQL
 - バックエンド（処理）：Python
 
 で実装していきます．
