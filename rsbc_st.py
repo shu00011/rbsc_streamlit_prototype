@@ -15,7 +15,48 @@ import pandas as pd
 
 MAXITER = 30  # counter　n回まで
 EXPERIMENT_NUMBER = 30
-NBINS = 10 # 階級数．ヒストグラムの棒の数？
+# NBINS:階級数．ヒストグラムの棒の数？
+
+def st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, NBINS):
+    st.write('-------------------------')
+    st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
+        np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS]), \
+        np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])))
+        # meanは引数の平均
+        # 出力結果は反復回数の平均値
+
+    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
+    st.bar_chart(A_hist)
+
+    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
+    st.bar_chart(B_hist)
+
+    # histogram(ヒストグラムを計算するための入力データ,bins,density)
+    # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
+    # binsが整数の場合は等間隔に配置されたビンの数を表す．
+    # densityがtrueのときは重みが正規化される．
+    # 戻り値は2つの配列．
+    # histはヒストログラムの値．
+    #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
+
+def output_csv(A, B):
+    df_all=[]
+
+    for a, b in zip(A,B):
+        try:
+           text=[(str(a) + ' '+str(b))]
+           df_all.append(text)
+        except:
+             print('none')
+
+    csv=pd.DataFrame(df_all).to_csv()
+
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='output.csv',
+        mime='text/csv'
+    )
 
 def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説を立てている
     favor, unfavor = 0, 0
@@ -217,45 +258,11 @@ def rsbc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
         rho_accuracy, \
         df)
 
-    st.write('-------------------------')
-    st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
-        np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS]), \
-        np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])))
-        # meanは引数の平均
-        # 出力結果は反復回数の平均値
+    st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, NBINS)
 
-    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-    st.bar_chart(A_hist)
-
-    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
-    st.bar_chart(B_hist)
-
-    # histogram(ヒストグラムを計算するための入力データ,bins,density)
-    # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
-    # binsが整数の場合は等間隔に配置されたビンの数を表す．
-    # densityがtrueのときは重みが正規化される．
-    # 戻り値は2つの配列．
-    # histはヒストログラムの値．
-    #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
-
-    df_all=[]
-
-    for a, b in zip(A,B):
-        try:
-           text=[(str(a) + ' '+str(b))]
-           df_all.append(text)
-#            print(text)
-        except:
-             print('none')
-
-    csv=pd.DataFrame(df_all).to_csv()
-
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name='output.csv',
-        mime='text/csv'
-    )
+    output_csv(A, B)
 
     elapsed_time = time.time() - start_time
-    st.success('Time elapsed %2.2f sec' % elapsed_time)
+
+    return elapsed_time
+

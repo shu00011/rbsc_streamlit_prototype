@@ -37,7 +37,6 @@ def main():
    userNBins=math.floor(st.number_input('Insert number of bins'))
    st.info(f'Your number of bins: {userNBins}')
 
-# https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
    uploaded_file = st.file_uploader('Choose a file',type='csv')
    if uploaded_file is not None:
         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
@@ -46,7 +45,7 @@ def main():
 
    if st.button('result'):
         with st.spinner('running...'):
-            rsbc.rsbc(
+            elapsed_time = rsbc.rsbc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
@@ -56,6 +55,8 @@ def main():
             )
 
         st.success('Done!')
+        st.success('Time elapsed %2.2f sec' % elapsed_time)
+
 
 if __name__ == "__main__":
     main()
