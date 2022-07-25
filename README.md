@@ -27,15 +27,3 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 ![1](https://user-images.githubusercontent.com/68161620/175230791-7ab88802-621b-48af-b8a6-74f78fb95614.PNG)
 ![2](https://user-images.githubusercontent.com/68161620/175230794-3b9cc42d-a163-4172-91e1-341a7fd6d907.PNG)
 
-## 今後
-構成を変えます．
-
-現在はstreamlit+Pythonで全てPythonで実装していますが，
-
-- フロントエンド：Next
-- データベース：MySQL
-- バックエンド（処理）：Python
-
-で実装していきます．
-
-まずはこのプロトタイプを元にPythonのプログラムを作っていきます．
