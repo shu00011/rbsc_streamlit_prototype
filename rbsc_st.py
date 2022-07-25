@@ -18,10 +18,13 @@ EXPERIMENT_NUMBER = 30
 # NBINS:階級数．ヒストグラムの棒の数？
 
 def st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, NBINS):
+    counters_mean = np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS])
+    rho_accuracy_mean = np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])
+
     st.write('-------------------------')
     st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
-        np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS]), \
-        np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])))
+        counters_mean, \
+        rho_accuracy_mean))
         # meanは引数の平均
         # 出力結果は反復回数の平均値
 
