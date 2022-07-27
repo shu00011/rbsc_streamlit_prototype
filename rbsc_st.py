@@ -29,10 +29,17 @@ def st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, 
         # 出力結果は反復回数の平均値
 
     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-    st.bar_chart(A_hist)
-
     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
-    st.bar_chart(B_hist)
+
+    col0, col1 = st.columns(2)
+
+    with col0:
+        st.write('a histogram of distribution of subset A values')
+        st.bar_chart(A_hist)
+
+    with col1:
+        st.write('a histogram of distribution of subset B values')
+        st.bar_chart(B_hist)
 
     # histogram(ヒストグラムを計算するための入力データ,bins,density)
     # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．

@@ -11,6 +11,34 @@ def open_csv_numpy_loadtxt(filename):
    return data
 
 def main():
+   st.title('RBSC-SubGen')
+   st.caption('❔ How to use : See the icon in the upper left corner.')
+
+   with st.sidebar:
+        st.header('How to use?')
+        st.write('Anyone can use RBSC-SubGen with this application.')
+
+        st.write('[Input]')
+        st.write('LISTSIZE')
+        st.caption('Size of a universal set')
+        st.write('SELECTLIST')
+        st.caption('Size of subsets')
+        st.write('RHO_STAR')
+        st.caption('a RBSC coefficient(p*)')
+        st.write('EPS')
+        st.caption('a Greatest allowance between a RBSC coefficient(p) and a RBSC coefficient(p*)')
+        st.write('Number of bins')
+        st.caption('Class frequency of histogram of distribution of subset values')
+        st.write('file')
+        st.caption('The value of a unversal set(CSV file)')
+
+        st.write('[Output]')
+        st.write('means number of iterations')
+        st.write('a histogram of distribution of subset A values')
+        st.write('a histogram of distribution of subset B values')
+        st.write('a CSV data of subsets A, B')
+        st.write('Elapsed time')
+
    col0, col1, col2, col3 = st.columns(4)
 
    with col0:
@@ -37,11 +65,11 @@ def main():
    userNBins=math.floor(st.number_input('Insert number of bins'))
    st.info(f'Your number of bins: {userNBins}')
 
-   uploaded_file = st.file_uploader('Choose a file',type='csv')
+   uploaded_file = st.file_uploader('Choose a CSV file',type='csv')
    if uploaded_file is not None:
         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
         string_data = stringio.read()
-        read_data=[float(row) for row in string_data.split('\r\n')]
+        read_data=[float(row) for row in string_data.splitlines()]
 
    if st.button('result'):
         with st.spinner('running...'):
