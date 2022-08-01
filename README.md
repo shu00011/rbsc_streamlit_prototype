@@ -1,7 +1,5 @@
 # rbsc_streamlit_prototype
 
-作成したWebアプリケーションは以下のURLからアクセス可能です．
-
 ## 概要
 RBSCアルゴリズムをWebアプリケーション上で利用できるようにしました．
 
