@@ -17,16 +17,7 @@ MAXITER = 30  # counter　n回まで
 EXPERIMENT_NUMBER = 30
 # NBINS:階級数．ヒストグラムの棒の数？
 
-def st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, NBINS):
-    counters_mean = np.mean(counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS])
-    rho_accuracy_mean = np.mean(rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS])
-
-    st.write('-------------------------')
-    st.write('Results:\t niter: {0:0.2f}\t  rho_accuracy: {1:0.2f}\t'.format( \
-        counters_mean, \
-        rho_accuracy_mean))
-        # meanは引数の平均
-        # 出力結果は反復回数の平均値
+def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
 
     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
@@ -81,7 +72,7 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 
 # 標準偏差
-def my_snippet(l, s, rho_star, e, counters, rho_accuracy, df):
+def my_snippet(l, s, rho_star, e, counters, df):
     x=df
 
     xs=np.sort(x) # xを昇順にsort
@@ -183,10 +174,7 @@ def my_snippet(l, s, rho_star, e, counters, rho_accuracy, df):
         rho = get_rbsc(y1, y2)
         counter += 1
 
-    counters[l][s][rho_star][e].append(counter)
-    rho_accuracy[l][s][rho_star][e].append(np.abs(rho - rho_star))
-
-    return counters, rho_accuracy, y1, y2
+    return y1, y2
 
 
 def init(userListsize, userSelectlist, userRhostar, userEps):
@@ -231,8 +219,7 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
         SELECTLIST, \
         RHO_STAR, \
         EPS, \
-        counters, \
-        rho_accuracy
+        counters
 
 # 恐らくmain関数．
 def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
@@ -246,27 +233,23 @@ def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
     SELECTLIST, \
     RHO_STAR, \
     EPS, \
-    counters, \
-    rho_accuracy = \
+    counters = \
         init(userListsize, userSelectlist, userRhostar, userEps)
 
     # np.count_nonzero()→引数の条件に合う要素の個数
-#     if np.count_nonzero(LISTSIZE) <= np.count_nonzero(SELECTLIST):
-#         return
 
     if LISTSIZE <= SELECTLIST:
         return
 
-    counters, rho_accuracy, A, B= my_snippet( \
+    A, B= my_snippet( \
         LISTSIZE, \
         SELECTLIST, \
         RHO_STAR, \
         EPS, \
         counters, \
-        rho_accuracy, \
         df)
 
-    st_print(counters, rho_accuracy, LISTSIZE, SELECTLIST, RHO_STAR, EPS, A, B, NBINS)
+    st_print(LISTSIZE, SELECTLIST, A, B, NBINS)
 
     output_csv(A, B)
 
