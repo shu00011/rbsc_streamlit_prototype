@@ -6,6 +6,7 @@ import numpy as np
 import rbsc_st as rbsc
 import csv
 import time
+import plotly.figure_factory as ff
 
 def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
 
@@ -51,11 +52,14 @@ def output_csv(A, B):
 
 def main():
    st.title('RBSC-SubGen')
-   st.caption('❔ How to use : See the icon in the upper left corner.')
+
+   with st.expander('❔ How to use : See this expander.'):
+        st.write('''
+        How to use?
+        ''')
 
    with st.sidebar:
-        st.header('How to use?')
-        st.write('Anyone can use RBSC-SubGen with this application.')
+        st.header('Parameters')
 
         st.write('[Input]')
         st.write('LISTSIZE')
