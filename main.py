@@ -5,10 +5,49 @@ import pandas as pd
 import numpy as np
 import rbsc_st as rbsc
 import csv
+import time
 
-def open_csv_numpy_loadtxt(filename):
-   data=np.loadtxt(filename, delimiter="\n")
-   return data
+def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
+
+    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
+    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
+
+    col0, col1 = st.columns(2)
+
+    with col0:
+        st.write('a histogram of distribution of subset A values')
+        st.bar_chart(A_hist)
+
+    with col1:
+        st.write('a histogram of distribution of subset B values')
+        st.bar_chart(B_hist)
+
+    # histogram(ヒストグラムを計算するための入力データ,bins,density)
+    # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
+    # binsが整数の場合は等間隔に配置されたビンの数を表す．
+    # densityがtrueのときは重みが正規化される．
+    # 戻り値は2つの配列．
+    # histはヒストログラムの値．
+    #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
+
+def output_csv(A, B):
+    df_all=[]
+
+    for a, b in zip(A,B):
+        try:
+           text=[(str(a) + ' '+str(b))]
+           df_all.append(text)
+        except:
+             print('none')
+
+    csv=pd.DataFrame(df_all).to_csv()
+
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='output.csv',
+        mime='text/csv'
+    )
 
 def main():
    st.title('RBSC-SubGen')
@@ -33,7 +72,6 @@ def main():
         st.caption('The value of a unversal set(CSV file)')
 
         st.write('[Output]')
-        st.write('means number of iterations')
         st.write('a histogram of distribution of subset A values')
         st.write('a histogram of distribution of subset B values')
         st.write('a CSV data of subsets A, B')
@@ -73,7 +111,8 @@ def main():
 
    if st.button('result'):
         with st.spinner('running...'):
-            elapsed_time = rbsc.rbsc(
+            start_time = time.time()
+            LISTSIZE, SELECTLIST, A, B, NBINS = rbsc.rbsc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
@@ -81,6 +120,10 @@ def main():
                 userNBins,
                 read_data
             )
+            st_print(LISTSIZE, SELECTLIST, A, B, NBINS)
+
+            output_csv(A, B)
+            elapsed_time = time.time() - start_time
 
         st.success('Done!')
         st.success('Time elapsed %2.2f sec' % elapsed_time)

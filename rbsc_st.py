@@ -3,7 +3,6 @@
 
 # Random sampling without replacement: random.sample()
 
-import streamlit as st
 import numpy as np
 import random
 import datetime
@@ -16,48 +15,6 @@ import pandas as pd
 MAXITER = 30  # counter　n回まで
 EXPERIMENT_NUMBER = 30
 # NBINS:階級数．ヒストグラムの棒の数？
-
-def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
-
-    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
-
-    col0, col1 = st.columns(2)
-
-    with col0:
-        st.write('a histogram of distribution of subset A values')
-        st.bar_chart(A_hist)
-
-    with col1:
-        st.write('a histogram of distribution of subset B values')
-        st.bar_chart(B_hist)
-
-    # histogram(ヒストグラムを計算するための入力データ,bins,density)
-    # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
-    # binsが整数の場合は等間隔に配置されたビンの数を表す．
-    # densityがtrueのときは重みが正規化される．
-    # 戻り値は2つの配列．
-    # histはヒストログラムの値．
-    #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
-
-def output_csv(A, B):
-    df_all=[]
-
-    for a, b in zip(A,B):
-        try:
-           text=[(str(a) + ' '+str(b))]
-           df_all.append(text)
-        except:
-             print('none')
-
-    csv=pd.DataFrame(df_all).to_csv()
-
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name='output.csv',
-        mime='text/csv'
-    )
 
 def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説を立てている
     favor, unfavor = 0, 0
@@ -223,7 +180,6 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
 
 # 恐らくmain関数．
 def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
-    start_time = time.time()
 
     NBINS = userNBins  # 階級数．ヒストグラムの棒の数？
 
@@ -249,11 +205,5 @@ def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
         counters, \
         df)
 
-    st_print(LISTSIZE, SELECTLIST, A, B, NBINS)
-
-    output_csv(A, B)
-
-    elapsed_time = time.time() - start_time
-
-    return elapsed_time
+    return LISTSIZE, SELECTLIST, A, B, NBINS
 
