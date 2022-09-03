@@ -13,7 +13,6 @@ import scipy
 import pandas as pd
 
 MAXITER = 30  # counter　n回まで
-EXPERIMENT_NUMBER = 30
 # NBINS:階級数．ヒストグラムの棒の数？
 
 def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説を立てている
@@ -163,34 +162,20 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
     """
 
     # 表を表示するためのコード
-    counters, rho_accuracy = {}, {}
-    counters[LISTSIZE], rho_accuracy[LISTSIZE] = {}, {}
-    counters[LISTSIZE][SELECTLIST], rho_accuracy[LISTSIZE][SELECTLIST] = {}, {}
-    counters[LISTSIZE][SELECTLIST][RHO_STAR], rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR] = {}, {}
-    counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS], rho_accuracy[LISTSIZE][SELECTLIST][RHO_STAR][EPS] = [], []
+    counters = {}
+    counters[LISTSIZE] = {}
+    counters[LISTSIZE][SELECTLIST] = {}
+    counters[LISTSIZE][SELECTLIST][RHO_STAR] = {}
+    counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS] = []
 
-    return \
-        MAXITER, \
-        EXPERIMENT_NUMBER, \
-        LISTSIZE, \
-        SELECTLIST, \
-        RHO_STAR, \
-        EPS, \
-        counters
+    return counters
 
 # 恐らくmain関数．
-def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
+def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, NBINS, element):
 
-    NBINS = userNBins  # 階級数．ヒストグラムの棒の数？
+    # NBINS:階級数．ヒストグラムの棒の数？
 
-    MAXITER, \
-    EXPERIMENT_NUMBER, \
-    LISTSIZE, \
-    SELECTLIST, \
-    RHO_STAR, \
-    EPS, \
-    counters = \
-        init(userListsize, userSelectlist, userRhostar, userEps)
+    counters = init(LISTSIZE, SELECTLIST, RHO_STAR, EPS)
 
     # np.count_nonzero()→引数の条件に合う要素の個数
 
@@ -203,7 +188,7 @@ def rbsc(userListsize, userSelectlist, userRhostar, userEps, userNBins,df):
         RHO_STAR, \
         EPS, \
         counters, \
-        df)
+        element)
 
-    return LISTSIZE, SELECTLIST, A, B, NBINS
+    return A, B
 
