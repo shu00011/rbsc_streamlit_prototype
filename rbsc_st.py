@@ -133,7 +133,7 @@ def my_snippet(l, s, rho_star, e, counters, df):
     return y1, y2
 
 
-def init(userListsize, userSelectlist, userRhostar, userEps):
+def init(LISTSIZE, SELECTLIST, RHO_STAR, EPS):
     """
     ハイパーパラメータ4つ．
     LISTSIZE：数の集合
@@ -149,17 +149,6 @@ def init(userListsize, userSelectlist, userRhostar, userEps):
 #     SELECTLIST = np.arange(100, 501, 50)  # [100, 200, 300, 400, 500]
 #     RHO_STAR = np.arange(0.3, 0.71, 0.04)  # [0.3, 0.5, 0.7]
 #     EPS = np.arange(0.05, 0.16, 0.01)  # [0.05, 0.1, 0.15]
-
-    LISTSIZE = userListsize
-    SELECTLIST = userSelectlist
-    RHO_STAR = userRhostar
-    EPS = userEps
-
-    """
-    デフォルト値を設定．
-    2つを固定して残り2つを比較する．（2次元で）
-    出力は6つになる．
-    """
 
     # 表を表示するためのコード
     counters = {}
