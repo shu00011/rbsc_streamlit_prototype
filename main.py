@@ -116,7 +116,7 @@ def main():
    if st.button('result'):
         with st.spinner('running...'):
             start_time = time.time()
-            LISTSIZE, SELECTLIST, A, B, NBINS = rbsc.rbsc(
+            A, B = rbsc.rbsc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
@@ -124,7 +124,8 @@ def main():
                 userNBins,
                 read_data
             )
-            st_print(LISTSIZE, SELECTLIST, A, B, NBINS)
+
+            st_print(userListsize, userSelectlist, A, B, userNBins)
 
             output_csv(A, B)
             elapsed_time = time.time() - start_time
