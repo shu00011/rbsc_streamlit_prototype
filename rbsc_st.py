@@ -29,7 +29,6 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 # 標準偏差
 def my_snippet(l, s, rho_star, e, counters, elements):
-    xs=np.sort(elements) # elementsを昇順にsort
 
     """
     全体集合xの中から大きさsのyを取り出して2等分する
