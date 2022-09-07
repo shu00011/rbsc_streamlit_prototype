@@ -4,8 +4,8 @@
 RBSCアルゴリズムをWebアプリケーション上で利用できるようにしました．
 
 ## 使用技術
-- Python 3.9.5
-- streamlit 1.10.0
+- Python 3.10.6
+- streamlit 1.12.2
 
 ## 入力
 - ユーザーが指定したLISTSIZE
