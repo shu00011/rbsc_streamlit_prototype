@@ -121,7 +121,6 @@ def main():
                 userSelectlist,
                 userRhostar,
                 userEps,
-                userNBins,
                 read_data
             )
 

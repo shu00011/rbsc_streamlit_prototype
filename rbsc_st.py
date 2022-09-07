@@ -160,7 +160,7 @@ def init(LISTSIZE, SELECTLIST, RHO_STAR, EPS):
     return counters
 
 # 恐らくmain関数．
-def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, NBINS, element):
+def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements):
 
     # NBINS:階級数．ヒストグラムの棒の数？
 
@@ -177,7 +177,7 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, NBINS, element):
         RHO_STAR, \
         EPS, \
         counters, \
-        element)
+        elements)
 
     return A, B
 
