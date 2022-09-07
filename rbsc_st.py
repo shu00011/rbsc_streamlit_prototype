@@ -28,24 +28,22 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 
 # 標準偏差
-def my_snippet(l, s, rho_star, e, counters, df):
-    x=df
-
-    xs=np.sort(x) # xを昇順にsort
+def my_snippet(l, s, rho_star, e, counters, elements):
+    xs=np.sort(elements) # elementsを昇順にsort
 
     """
     全体集合xの中から大きさsのyを取り出して2等分する
     →この繰り返しがcounter
     """
-    # TODO:ValueError: Sample larger than population or is negative
-    y = random.sample(list(x), s)
+
+    y = random.sample(list(elements), s)
     y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
     y2 = y[int(len(y) * 0.5):]
     rho = get_rbsc(y1, y2)
 
     counter = 0
 
-    z = list(set(x) - set(y))  # z=すでに選んだ値をxから除外したもの
+    z = list(set(elements) - set(y))  # z=すでに選んだ値をelementsから除外したもの
 
     while not (rho_star - e <= rho and rho <= rho_star + e) and (counter < MAXITER):
 
