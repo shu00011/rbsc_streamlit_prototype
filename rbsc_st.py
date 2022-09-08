@@ -28,7 +28,7 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 
 # 標準偏差
-def my_snippet(l, s, rho_star, e, counters, elements):
+def my_snippet(l, s, rho_star, e, elements):
 
     """
     全体集合xの中から大きさsのyを取り出して2等分する
@@ -129,8 +129,6 @@ def my_snippet(l, s, rho_star, e, counters, elements):
 
     return y1, y2
 
-
-def init(LISTSIZE, SELECTLIST, RHO_STAR, EPS):
     """
     ハイパーパラメータ4つ．
     LISTSIZE：数の集合
@@ -142,28 +140,10 @@ def init(LISTSIZE, SELECTLIST, RHO_STAR, EPS):
             総当たり．仮説に反する証拠が多ければpは低くなる．
     EPS：誤差e．大きければアルゴリズムはすぐに収束する．
     """
-#     LISTSIZE = np.arange(100, 901, 50)  # [100, 300, 500 ,700, 900]
-#     SELECTLIST = np.arange(100, 501, 50)  # [100, 200, 300, 400, 500]
-#     RHO_STAR = np.arange(0.3, 0.71, 0.04)  # [0.3, 0.5, 0.7]
-#     EPS = np.arange(0.05, 0.16, 0.01)  # [0.05, 0.1, 0.15]
 
-    # 表を表示するためのコード
-    counters = {}
-    counters[LISTSIZE] = {}
-    counters[LISTSIZE][SELECTLIST] = {}
-    counters[LISTSIZE][SELECTLIST][RHO_STAR] = {}
-    counters[LISTSIZE][SELECTLIST][RHO_STAR][EPS] = []
-
-    return counters
-
-# 恐らくmain関数．
 def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements):
 
     # NBINS:階級数．ヒストグラムの棒の数？
-
-    counters = init(LISTSIZE, SELECTLIST, RHO_STAR, EPS)
-
-    # np.count_nonzero()→引数の条件に合う要素の個数
 
     if LISTSIZE <= SELECTLIST:
         return
@@ -173,7 +153,6 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements):
         SELECTLIST, \
         RHO_STAR, \
         EPS, \
-        counters, \
         elements)
 
     return A, B
