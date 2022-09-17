@@ -32,16 +32,8 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
 def output_csv(A, B):
-    df_all=[]
 
-    for a, b in zip(A,B):
-        try:
-           text=[(str(a) + ' '+str(b))]
-           df_all.append(text)
-        except:
-             print('none')
-
-    csv=pd.DataFrame(df_all).to_csv()
+    csv=pd.DataFrame(zip(A,B),columns=['elements of the subset A',' elements of the subset B']).to_csv()
 
     st.download_button(
         label="Download data as CSV",
