@@ -42,36 +42,8 @@ def output_csv(A, B):
         mime='text/csv'
     )
 
-def main():
+def rbscApp():
    st.title('RBSC-SubGen')
-
-   with st.expander('❔ How to use : See this expander.'):
-        st.write('''
-        How to use?
-        ''')
-
-   with st.sidebar:
-        st.header('Parameters')
-
-        st.write('[Input]')
-        st.write('LISTSIZE')
-        st.caption('Size of a universal set')
-        st.write('SELECTLIST')
-        st.caption('Size of subsets')
-        st.write('RHO_STAR')
-        st.caption('a RBSC coefficient(p*)')
-        st.write('EPS')
-        st.caption('a Greatest allowance between a RBSC coefficient(p) and a RBSC coefficient(p*)')
-        st.write('Number of bins')
-        st.caption('Class frequency of histogram of distribution of subset values')
-        st.write('file')
-        st.caption('The value of a unversal set(CSV file)')
-
-        st.write('[Output]')
-        st.write('a histogram of distribution of subset A values')
-        st.write('a histogram of distribution of subset B values')
-        st.write('a CSV data of subsets A, B')
-        st.write('Elapsed time')
 
    col0, col1, col2, col3 = st.columns(4)
 
@@ -114,6 +86,11 @@ def main():
         string_data = stringio.read()
         read_data=[float(row) for row in string_data.splitlines()]
 
+   with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
+        st.write('[Max. number of trials]')
+        userMaxtrials=st.number_input('Insert Max. number of trials', value = 30)
+        st.info(f'Your number of bins: {userMaxtrials}')
+
    if st.button('result'):
         with st.spinner('running...'):
             start_time = time.time()
@@ -122,7 +99,8 @@ def main():
                 userSelectlist,
                 userRhostar,
                 userEps,
-                read_data
+                read_data,
+                userMaxtrials
             )
 
             st_print(userListsize, userSelectlist, A, B, userNBins)
@@ -133,6 +111,19 @@ def main():
         st.success('Done!')
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
+   gitLink = '[source code](https://github.com/shu00011/rbsc_streamlit_prototype)'
+   st.markdown(gitLink, unsafe_allow_html=True)
+
+def howTo():
+    st.write('how to use?')
+
+def main():
+    pagelist = ['RBSC-SubGen', 'How to use?']
+    selector = st.sidebar.selectbox('Page Selection', pagelist)
+    if selector == 'RBSC-SubGen':
+        rbscApp()
+    elif selector == 'How to use?':
+        howTo()
 
 if __name__ == "__main__":
     main()

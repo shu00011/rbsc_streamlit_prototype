@@ -12,8 +12,8 @@ import plotly.figure_factory as ff
 import scipy
 import pandas as pd
 
-MAXITER = 30  # counter　n回まで
-# NBINS:階級数．ヒストグラムの棒の数？
+# MAXITER: counter　n回まで
+# NBINS: 階級数．ヒストグラムの棒の数？
 
 def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説を立てている
     favor, unfavor = 0, 0
@@ -28,7 +28,7 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 
 # 標準偏差
-def my_snippet(l, s, rho_star, e, elements):
+def my_snippet(l, s, rho_star, e, elements, MAXITER):
 
     """
     全体集合xの中から大きさsのyを取り出して2等分する
@@ -141,7 +141,7 @@ def my_snippet(l, s, rho_star, e, elements):
     EPS：誤差e．大きければアルゴリズムはすぐに収束する．
     """
 
-def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements):
+def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
 
     # NBINS:階級数．ヒストグラムの棒の数？
 
@@ -153,7 +153,8 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements):
         SELECTLIST, \
         RHO_STAR, \
         EPS, \
-        elements)
+        elements, \
+        MAXITER)
 
     return A, B
 
