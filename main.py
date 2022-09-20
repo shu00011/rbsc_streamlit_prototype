@@ -77,18 +77,24 @@ def main():
 
    with col0:
         st.write("[LISTSIZE]")
-        userListsize=math.floor(st.number_input('Insert LISTSIZE'))
+        userListsize = math.floor(st.number_input('Insert LISTSIZE'))
         st.info(f'Your LISTSIZE: {userListsize}')
 
    with col1:
         st.write("[SELECTLIST]")
-        userSelectlist=math.floor(st.number_input('Insert SELECTLIST'))
-        st.info(f'Your SELECTLIST: {userSelectlist}')
+        userSelectlist = math.floor(st.number_input('Insert SELECTLIST'))
+        if userListsize <= userSelectlist:
+            st.error("⚠ The subset must be smaller than the universal set.")
+        else:
+            st.info(f'Your SELECTLIST: {userSelectlist}')
 
    with col2:
         st.write("[RHO_STAR]")
         userRhostar=st.number_input('Insert RHO_STAR')
-        st.info(f'Your RHO_STAR: {userRhostar}')
+        if userRhostar >= -1 and userRhostar <= 1:
+            st.info(f'Your RHO_STAR: {userRhostar}')
+        else:
+            st.error("⚠ The range of RHO_STAR must be between -1 and 1.")
 
    with col3:
         st.write("[EPS]")
@@ -97,7 +103,10 @@ def main():
 
    st.write("Number of bins")
    userNBins=math.floor(st.number_input('Insert number of bins'))
-   st.info(f'Your number of bins: {userNBins}')
+   if userNBins < 1:
+        st.error("⚠ Number of bins must be greater than or equal to 1.")
+   else:
+       st.info(f'Your number of bins: {userNBins}')
 
    uploaded_file = st.file_uploader('Choose a CSV file',type='csv')
    if uploaded_file is not None:
