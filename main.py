@@ -88,7 +88,7 @@ def rbscApp():
 
    with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
         st.write('[Max. number of trials]')
-        userMaxtrials=st.number_input('Insert Max. number of trials', value = 30)
+        userMaxtrials=math.floor(st.number_input('Insert Max. number of trials', value = 30))
         st.info(f'Your number of bins: {userMaxtrials}')
 
    if st.button('result'):
