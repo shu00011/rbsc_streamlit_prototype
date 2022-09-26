@@ -71,7 +71,10 @@ def rbscApp():
    with col3:
         st.write("[EPS]")
         userEps=st.number_input('Insert EPS')
-        st.info(f'Your EPS: {userEps}')
+        if userEps < 0:
+            st.error("⚠ EPS must be an absolute value.")
+        else:
+            st.info(f'Your EPS: {userEps}')
 
    st.write("Number of bins")
    userNBins=math.floor(st.number_input('Insert number of bins'))
