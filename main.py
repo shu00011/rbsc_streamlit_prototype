@@ -47,7 +47,7 @@ def rbscApp():
 
    userListsize = 0
 
-   st.header('1. Data upload')
+   st.subheader('1. Data upload')
 
    uploaded_file = st.file_uploader('Load a CSV data file',type='csv')
    if uploaded_file is not None:
@@ -57,7 +57,7 @@ def rbscApp():
         userListsize = len(read_data)
         st.info(f'Your number of data points: {userListsize}')
 
-   st.header('2. Input parameters')
+   st.subheader('2. Input parameters')
 
    col0, col1, col2 = st.columns(3)
 
@@ -85,7 +85,7 @@ def rbscApp():
         else:
             st.info(f'Your tolerable error: {userEps}')
 
-   st.header('3. Visualization parameters')
+   st.subheader('3. Visualization parameters')
 
    st.write("[Number of histogram bins]")
    userNBins=math.floor(st.number_input('Insert number of histogram bins'))
