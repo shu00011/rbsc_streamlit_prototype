@@ -23,8 +23,8 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 - 処理にかかった時間
 
 ## demo
-![input](https://user-images.githubusercontent.com/68161620/192952500-526694e6-28a8-4d94-b84f-82b882f27344.PNG)
-![inputF](https://user-images.githubusercontent.com/68161620/192952514-638c5491-2f8a-47c2-879d-5d9fcb1787fe.PNG)
+![inputF](https://user-images.githubusercontent.com/68161620/192953638-35de75d5-026a-4067-9393-469c14e05e93.PNG)
+![input](https://user-images.githubusercontent.com/68161620/192953602-5e2dfbab-f8ba-4629-b181-11866d82697f.PNG)
 ![maxiter](https://user-images.githubusercontent.com/68161620/192952543-d6f27805-6308-402d-8647-73809dce0a6e.PNG)
 ![output](https://user-images.githubusercontent.com/68161620/192952551-64410a27-4d59-4684-8154-d78b653442f1.PNG)
 
