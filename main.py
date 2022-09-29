@@ -45,56 +45,61 @@ def output_csv(A, B):
 def rbscApp():
    st.title('RBSC-SubGen')
 
-   col0, col1, col2, col3 = st.columns(4)
+   userListsize = 0
+
+   st.header('1. Data upload')
+
+   uploaded_file = st.file_uploader('Load a CSV data file',type='csv')
+   if uploaded_file is not None:
+        stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
+        string_data = stringio.read()
+        read_data = [float(row) for row in string_data.splitlines()]
+        userListsize = len(read_data)
+        st.info(f'Your number of data points: {userListsize}')
+
+   st.header('2. Input parameters')
+
+   col0, col1, col2 = st.columns(3)
 
    with col0:
-        st.write("[LISTSIZE]")
-        userListsize = math.floor(st.number_input('Insert LISTSIZE'))
-        st.info(f'Your LISTSIZE: {userListsize}')
+        st.write("[Subset size]")
+        userSelectlist = math.floor(st.number_input('Insert subset size'))
+        if userListsize <= userSelectlist:
+            st.error("⚠ The subset size must be smaller than the universal set size.")
+        else:
+            st.info(f'Your Subset size: {userSelectlist}')
 
    with col1:
-        st.write("[SELECTLIST]")
-        userSelectlist = math.floor(st.number_input('Insert SELECTLIST'))
-        if userListsize <= userSelectlist:
-            st.error("⚠ The subset must be smaller than the universal set.")
+        st.write("[RBSC coefficient]")
+        userRhostar=st.number_input('Insert RBSC coefficient')
+        if userRhostar >= -1 and userRhostar <= 1:
+            st.info(f'Your RBSC coefficient: {userRhostar}')
         else:
-            st.info(f'Your SELECTLIST: {userSelectlist}')
+            st.error("⚠ The range of RBSC coefficient must be between -1 and 1.")
 
    with col2:
-        st.write("[RHO_STAR]")
-        userRhostar=st.number_input('Insert RHO_STAR')
-        if userRhostar >= -1 and userRhostar <= 1:
-            st.info(f'Your RHO_STAR: {userRhostar}')
-        else:
-            st.error("⚠ The range of RHO_STAR must be between -1 and 1.")
-
-   with col3:
-        st.write("[EPS]")
-        userEps=st.number_input('Insert EPS')
+        st.write("[Tolerable error]")
+        userEps=st.number_input('Insert tolerable error')
         if userEps < 0:
-            st.error("⚠ EPS must be an absolute value.")
+            st.error("⚠ Tolerable error must be an absolute value.")
         else:
-            st.info(f'Your EPS: {userEps}')
+            st.info(f'Your tolerable error: {userEps}')
 
-   st.write("Number of bins")
-   userNBins=math.floor(st.number_input('Insert number of bins'))
+   st.header('3. Visualization parameters')
+
+   st.write("[Number of histogram bins]")
+   userNBins=math.floor(st.number_input('Insert number of histogram bins'))
    if userNBins < 1:
         st.error("⚠ Number of bins must be greater than or equal to 1.")
    else:
        st.info(f'Your number of bins: {userNBins}')
-
-   uploaded_file = st.file_uploader('Choose a CSV file',type='csv')
-   if uploaded_file is not None:
-        stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-        string_data = stringio.read()
-        read_data=[float(row) for row in string_data.splitlines()]
 
    with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
         st.write('[Max. number of trials]')
         userMaxtrials=math.floor(st.number_input('Insert Max. number of trials', value = 30))
         st.info(f'Your number of bins: {userMaxtrials}')
 
-   if st.button('result'):
+   if st.button('Run'):
         with st.spinner('running...'):
             start_time = time.time()
             A, B = rbsc.rbsc(
@@ -112,6 +117,7 @@ def rbscApp():
             elapsed_time = time.time() - start_time
 
         st.success('Done!')
+        st.success(f'Your RBSC corfficient: {userRhostar}')
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
    gitLink = '[source code](https://github.com/shu00011/rbsc_streamlit_prototype)'
