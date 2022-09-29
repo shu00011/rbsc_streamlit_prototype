@@ -8,17 +8,18 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 - streamlit 1.12.2
 
 ## 入力
-- ユーザーが指定したLISTSIZE
-- ユーザーが指定したSELECTLIST
-- ユーザーが指定したRHO_STAR
-- ユーザーが指定したEPS
-- ユーザーが指定したNumber of bins
 - ユーザーからの1行のCSVデータ（全体集合）
+- ユーザーが指定したSubset size
+- ユーザーが指定したRBSC coefficient
+- ユーザーが指定したTolerable error
+- ユーザーが指定したNumber of histogram bins
+
 
 ## 出力
 - 部分集合Aの分布のグラフ
 - 部分集合Bの分布のグラフ
 - A, Bの値のCSVデータ
+- ユーザーが指定したRBSC coefficient
 - 処理にかかった時間
 
 ## demo
@@ -29,7 +30,6 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 
 
 ## release
-
 
 ### v.0 (2022/07/25)
 公開
