@@ -22,15 +22,14 @@ RBSCアルゴリズムをWebアプリケーション上で利用できるよう�
 - 処理にかかった時間
 
 ## demo
+![input](https://user-images.githubusercontent.com/68161620/192952500-526694e6-28a8-4d94-b84f-82b882f27344.PNG)
+![inputF](https://user-images.githubusercontent.com/68161620/192952514-638c5491-2f8a-47c2-879d-5d9fcb1787fe.PNG)
+![maxiter](https://user-images.githubusercontent.com/68161620/192952543-d6f27805-6308-402d-8647-73809dce0a6e.PNG)
+![output](https://user-images.githubusercontent.com/68161620/192952551-64410a27-4d59-4684-8154-d78b653442f1.PNG)
 
-![0](https://user-images.githubusercontent.com/68161620/175230781-cdc007be-50ce-43c8-90e5-a02ba526d360.PNG)
-![1](https://user-images.githubusercontent.com/68161620/175230791-7ab88802-621b-48af-b8a6-74f78fb95614.PNG)
-![2](https://user-images.githubusercontent.com/68161620/175230794-3b9cc42d-a163-4172-91e1-341a7fd6d907.PNG)
 
 ## release
 
 
 ### v.0 (2022/07/25)
 公開
-### v.0.1 (2022/07/27)
-How to use?を追加
