@@ -85,6 +85,11 @@ def rbscApp():
         else:
             st.info(f'Your tolerable error: {userEps}')
 
+   with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
+        st.write('[Max. number of trials]')
+        userMaxtrials=math.floor(st.number_input('Insert Max. number of trials', value = 30))
+        st.info(f'Your number of bins: {userMaxtrials}')
+
    st.subheader('3. Visualization parameters')
 
    st.write("[Number of histogram bins]")
@@ -93,11 +98,6 @@ def rbscApp():
         st.error("⚠ Number of bins must be greater than or equal to 1.")
    else:
        st.info(f'Your number of bins: {userNBins}')
-
-   with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
-        st.write('[Max. number of trials]')
-        userMaxtrials=math.floor(st.number_input('Insert Max. number of trials', value = 30))
-        st.info(f'Your number of bins: {userMaxtrials}')
 
    if st.button('Run'):
         with st.spinner('running...'):
