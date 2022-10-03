@@ -127,7 +127,7 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
         rho = get_rbsc(y1, y2)
         counter += 1
 
-    return y1, y2
+    return y1, y2, rho
 
     """
     ハイパーパラメータ4つ．
@@ -148,7 +148,7 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
     if LISTSIZE <= SELECTLIST:
         return
 
-    A, B= my_snippet( \
+    A, B, rho = my_snippet( \
         LISTSIZE, \
         SELECTLIST, \
         RHO_STAR, \
@@ -156,5 +156,5 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
         elements, \
         MAXITER)
 
-    return A, B
+    return A, B, rho
 

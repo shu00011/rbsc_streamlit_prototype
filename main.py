@@ -102,7 +102,7 @@ def rbscApp():
    if st.button('Run'):
         with st.spinner('running...'):
             start_time = time.time()
-            A, B = rbsc.rbsc(
+            A, B, rho = rbsc.rbsc(
                 userListsize,
                 userSelectlist,
                 userRhostar,
@@ -117,7 +117,7 @@ def rbscApp():
             elapsed_time = time.time() - start_time
 
         st.success('Done!')
-        st.success(f'Your RBSC corfficient: {userRhostar}')
+        st.success(f'Your RBSC corfficient: {rho}')
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
    gitLink = '[source code](https://github.com/shu00011/rbsc_streamlit_prototype)'
