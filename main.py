@@ -102,14 +102,13 @@ def rbscApp():
    if st.button('Run'):
         with st.spinner('running...'):
             start_time = time.time()
-            A, B, rho = rbsc.rbsc(
-                userListsize,
-                userSelectlist,
-                userRhostar,
-                userEps,
-                read_data,
-                userMaxtrials
-            )
+            A, B, rho = rbsc.rbsc( \
+                userListsize, \
+                userSelectlist, \
+                userRhostar, \
+                userEps, \
+                read_data, \
+                userMaxtrials)
 
             st_print(userListsize, userSelectlist, A, B, userNBins)
 
@@ -120,43 +119,12 @@ def rbscApp():
         st.success(f'Your RBSC corfficient: {rho}')
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
-   gitLink = '[source code](https://github.com/shu00011/rbsc_streamlit_prototype)'
-   st.markdown(gitLink, unsafe_allow_html=True)
+   howto = '[How to use?](https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54)'
+   st.markdown(howto, unsafe_allow_html=True)
 
-   with st.expander('❔ Where to save and delete your CSV data file and output.csv?'):
-        st.subheader('1. Your CSV data')
-        st.markdown('''
-            When you upload a CSV data file, the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory(i.e. RAM, not disk).
-            The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction.
-
-            As files are stored in memory, they get deleted immediately as soon as they're not needed anyone.
-
-            This means the app removes a file from memory when:
-
-            - The user uploads another file, replacing the original one.
-            - The user clears the file uoloader.
-            - The user closes the browser tab ehwn they uploaded the file.
-        ''')
-        fileUpload= '[Where does st.file_uploader store uploaded files and when do they get deleted?](https://docs.streamlit.io/knowledge-base/using-streamlit/where-file-uploader-store-when-deleted)'
-        st.markdown(fileUpload, unsafe_allow_html=True)
-
-        st.subheader('2. output.csv')
-        st.markdown('''
-            output.csv is stored in-memory while the user is connected, so it's a good idea to keep file sizes under a couple hundred megabytes to conserve memory.
-        ''')
-        downloadButton = '[st.download_button](https://docs.streamlit.io/library/api-reference/widgets/st.download_button)'
-        st.markdown(downloadButton, unsafe_allow_html=True)
-
-def howTo():
-    st.write('how to use?')
 
 def main():
-    pagelist = ['RBSC-SubGen', 'How to use?']
-    selector = st.sidebar.selectbox('Page Selection', pagelist)
-    if selector == 'RBSC-SubGen':
-        rbscApp()
-    elif selector == 'How to use?':
-        howTo()
+    rbscApp()
 
 if __name__ == "__main__":
     main()
