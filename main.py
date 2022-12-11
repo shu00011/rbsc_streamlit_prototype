@@ -32,8 +32,12 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
 def output_csv(A, B):
+    A_index=((A.index)+1).tolist()
+    A_data=A.values.tolist()
+    B_index=((B.index)+1).tolist()
+    B_data=B.values.tolist()
 
-    csv=pd.DataFrame(zip(A,B),columns=['elements of the subset A',' elements of the subset B']).to_csv()
+    csv=pd.DataFrame(zip(A_index,A_data,B_index,B_data),columns=['rowA','elementsA','rowB','elementsB']).to_csv()
 
     st.download_button(
         label="Download data as CSV",
@@ -53,7 +57,9 @@ def rbscApp():
    if uploaded_file is not None:
         stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
         string_data = stringio.read()
-        read_data = [float(row) for row in string_data.splitlines()]
+        string_item = string_data.splitlines()
+        list_data = [float(row) for row in string_item]
+        read_data = pd.Series(list_data)
         userListsize = len(read_data)
         st.info(f'Your number of data points: {userListsize}')
 
