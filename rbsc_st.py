@@ -34,16 +34,16 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
     全体集合xの中から大きさsのyを取り出して2等分する
     →この繰り返しがcounter
     """
-
     y = elements.sample(n=s)
+    y_index = y.index
     y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
     y2 = y[int(len(y) * 0.5):]
     rho = get_rbsc(y1, y2)
 
     counter = 0
 
-    z_series = pd.concat([elements, y])
-    z = z_series.drop_duplicates(keep=False)
+    z = elements.drop(y_index)
+
     # z=すでに選んだ値をelementsから除外したもの
     while not (rho_star - e <= rho and rho <= rho_star + e) and (counter < MAXITER):
 
@@ -56,10 +56,10 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 wがy1より大きければy1にwを加える→y1の平均値をどんどん高くする
                 """
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y1) < wf):  # meanは引数の平均．
                     y1 = pd.concat([y1, w])
-                    z = pd.concat([z, w])
-                    z = z.drop_duplicates(keep=False)
+                    z = z.drop(w_index)
                     break
 
             counter2 = 0
@@ -67,9 +67,9 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter2 += 1
                 w = y1.sample()  # w = y1から1こずつランダムに選ぶ
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y1) > wf):  # y1のAVGよりもwが小さい→wを抜く
-                    y1 = pd.concat([y1, w])
-                    y1 = y1.drop_duplicates(keep=False)
+                    y1 = y1.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -79,10 +79,10 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter3 += 1
                 w = z.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y2) > wf):
                     y2 = pd.concat([y2, w])
-                    z = pd.concat([z, w])
-                    z = z.drop_duplicates(keep=False)
+                    z=z.drop(w_index)
                     break
 
             counter4 = 0
@@ -90,9 +90,9 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter4 += 1
                 w = y2.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y2) < wf):
-                    y2 = pd.concat([y2, w])
-                    y2 = y2.drop_duplicates(keep=False)
+                    y2=y2.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -102,10 +102,10 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter5 += 1
                 w = z.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y2) < wf):
                     y2 = pd.concat([y2, w])
-                    z = pd.concat([z, w])
-                    z = z.drop_duplicates(keep=False)
+                    z=z.drop(w_index)
                     break
 
             counter6 = 0
@@ -113,9 +113,9 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter6 += 1
                 w = y2.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y2) > w):
-                    y2 = pd.concat([y2, w])
-                    y2 = y2.drop_duplicates(keep=False)
+                    y2=y2.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -124,10 +124,10 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter7 += 1
                 w = z.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y1) > wf):
                     y1 = pd.concat([y1, w])
-                    z = pd.concat([z, w])
-                    z = z.drop_duplicates(keep=False)
+                    z=z.drop(w_index)
                     break
 
             counter8 = 0
@@ -135,9 +135,9 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
                 counter8 += 1
                 w = y1.sample()
                 wf=w.iloc[-1]
+                w_index=w.index
                 if (np.mean(y1) < wf):
-                    y1 = pd.concat([y1, w])
-                    y1 = y1.drop_duplicates(keep=False)
+                    y1=y1.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
