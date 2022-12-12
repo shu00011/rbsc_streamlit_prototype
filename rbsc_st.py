@@ -34,7 +34,7 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
     全体集合xの中から大きさsのyを取り出して2等分する
     →この繰り返しがcounter
     """
-    y = elements.sample(n=s)
+    y = elements.sample(n=s*2)
     y_index = y.index
     y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
     y2 = y[int(len(y) * 0.5):]
