@@ -31,24 +31,9 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # histはヒストログラムの値．
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
-def output_df(dataframe,A, B):
+def output_df(dataframe,A):
     csv=dataframe.loc[A.index].reset_index(drop=True).to_csv()
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name='output.csv',
-        mime='text/csv'
-    )
-
-
-def output_csv(A, B):
-    A_index=((A.index)+1).tolist()
-    A_data=A.values.tolist()
-    B_index=((B.index)+1).tolist()
-    B_data=B.values.tolist()
-
-    csv=pd.DataFrame(zip(A_index,A_data,B_index,B_data),columns=['rowA','elementsA','rowB','elementsB']).to_csv()
-
+    st.write(dataframe.loc[A.index].reset_index(drop=True))
     st.download_button(
         label="Download data as CSV",
         data=csv,
@@ -134,8 +119,9 @@ def rbscApp():
 
             st_print(userListsize, userSelectlist, A, B, userNBins)
 
-            output_df(dataframe,A,B)
-#            output_csv(A, B)
+            output_df(dataframe,A)
+            output_df(dataframe,B)
+
             elapsed_time = time.time() - start_time
 
         st.success('Done!')
