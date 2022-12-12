@@ -59,6 +59,8 @@ def rbscApp():
         string_data = stringio.read()
         string_item = string_data.splitlines()
         list_data = [float(row) for row in string_item]
+        read_data_df = pd.DataFrame(list_data)
+        print(read_data_df)
         read_data = pd.Series(list_data)
         userListsize = len(read_data)
         st.info(f'Your number of data points: {userListsize}')
