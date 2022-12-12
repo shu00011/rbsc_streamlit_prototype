@@ -31,6 +31,16 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # histはヒストログラムの値．
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
+def output_df(dataframe,A, B):
+    csv=dataframe.loc[A.index].reset_index(drop=True).to_csv()
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='output.csv',
+        mime='text/csv'
+    )
+
+
 def output_csv(A, B):
     A_index=((A.index)+1).tolist()
     A_data=A.values.tolist()
@@ -57,6 +67,8 @@ def rbscApp():
    if uploaded_file is not None:
         dataframe = pd.read_csv(uploaded_file)
         df_columns = dataframe.columns.values
+
+        st.write(dataframe)
 
         columns = st.selectbox(
             'Select the columns you wish to apply to RBSC-SubGen.',
@@ -122,7 +134,8 @@ def rbscApp():
 
             st_print(userListsize, userSelectlist, A, B, userNBins)
 
-            output_csv(A, B)
+            output_df(dataframe,A,B)
+#            output_csv(A, B)
             elapsed_time = time.time() - start_time
 
         st.success('Done!')
