@@ -55,13 +55,15 @@ def rbscApp():
 
    uploaded_file = st.file_uploader('Load a CSV data file',type='csv')
    if uploaded_file is not None:
-        stringio = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-        string_data = stringio.read()
-        string_item = string_data.splitlines()
-        list_data = [float(row) for row in string_item]
-        read_data_df = pd.DataFrame(list_data)
-        print(read_data_df)
-        read_data = pd.Series(list_data)
+        dataframe = pd.read_csv(uploaded_file)
+        df_columns = dataframe.columns.values
+
+        columns = st.selectbox(
+            'Select the columns you wish to apply to RBSC-SubGen.',
+            (df_columns)
+        )
+
+        read_data = dataframe[columns]
         userListsize = len(read_data)
         st.info(f'Your number of data points: {userListsize}')
 
