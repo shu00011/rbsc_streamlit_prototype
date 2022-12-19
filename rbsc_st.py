@@ -8,8 +8,6 @@ import random
 import datetime
 import pickle
 import time
-import plotly.figure_factory as ff
-import scipy
 import pandas as pd
 
 # MAXITER: counter　n回まで
@@ -36,8 +34,8 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
     """
     y = elements.sample(n=s*2)
     y_index = y.index
-    y1 = y[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
-    y2 = y[int(len(y) * 0.5):]
+    y1 = y.iloc[:int(len(y) * 0.5)]  # AとBそのもの．indexでなくて値そのもの．
+    y2 = y.iloc[int(len(y) * 0.5):]
     rho = get_rbsc(y1, y2)
 
     counter = 0

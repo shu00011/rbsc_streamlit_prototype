@@ -6,7 +6,6 @@ import numpy as np
 import rbsc_st as rbsc
 import csv
 import time
-import plotly.figure_factory as ff
 
 def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
 
