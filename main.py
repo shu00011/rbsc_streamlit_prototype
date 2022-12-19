@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit_ext as ste
 import math
 import io
 import pandas as pd
@@ -30,15 +31,28 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # histはヒストログラムの値．
     #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
-def output_df(dataframe,A):
-    csv=dataframe.loc[A.index].reset_index(drop=True).to_csv()
-    st.write(dataframe.loc[A.index].reset_index(drop=True))
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name='output.csv',
-        mime='text/csv'
-    )
+def output_df(dataframe,A,B):
+    csvA=dataframe.loc[A.index].reset_index(drop=True).to_csv()
+    csvB=dataframe.loc[B.index].reset_index(drop=True).to_csv()
+
+    col0, col1 = st.columns(2)
+
+    with col0:
+        st.write(dataframe.loc[A.index].reset_index(drop=True))
+        ste.download_button(
+            'Download data A as CSV',
+            csvA,
+            'dataA.csv'
+        )
+
+    with col1:
+        st.write(dataframe.loc[B.index].reset_index(drop=True))
+        ste.download_button(
+            label="Download data B as CSV",
+            data=csvB,
+            file_name='dataB.csv',
+            mime='text/csv'
+        )
 
 def rbscApp():
    st.title('RBSC-SubGen')
@@ -118,8 +132,7 @@ def rbscApp():
 
             st_print(userListsize, userSelectlist, A, B, userNBins)
 
-            output_df(dataframe,A)
-            output_df(dataframe,B)
+            output_df(dataframe,A,B)
 
             elapsed_time = time.time() - start_time
 
