@@ -63,7 +63,7 @@ def rbscApp():
 
    uploaded_file = st.file_uploader('Load a CSV data file',type='csv')
    if uploaded_file is not None:
-        dataframe = pd.read_csv(uploaded_file).drop(columns='Unnamed: 0')
+        dataframe = pd.read_csv(uploaded_file).drop(columns='Unnamed: 0', errors = 'ignore')
         df_columns = dataframe.columns.values
 
         st.write(dataframe)
