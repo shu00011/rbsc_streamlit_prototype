@@ -29,11 +29,11 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # densityがtrueのときは重みが正規化される．
     # 戻り値は2つの配列．
     # histはヒストログラムの値．
-    #bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
+    # bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
 def output_df(dataframe,A,B):
-    csvA=dataframe.loc[A.index].reset_index(drop=True).to_csv()
-    csvB=dataframe.loc[B.index].reset_index(drop=True).to_csv()
+    csvA=dataframe.loc[A.index].reset_index(drop=True).to_csv(index=False)
+    csvB=dataframe.loc[B.index].reset_index(drop=True).to_csv(index=False)
 
     col0, col1 = st.columns(2)
 
