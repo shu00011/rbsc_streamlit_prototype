@@ -179,7 +179,7 @@ def rbscApp():
             
                 read_dataA = dataframeA[columns[1]]
 
-                A1, A2, rho = rbsc.rbsc( \
+                A1, A2, rho1 = rbsc.rbsc( \
                     len(dataframeA), \
                     userSelectlist, \
                     userRhostarB, \
@@ -189,7 +189,7 @@ def rbscApp():
                 
                 read_dataB = dataframeB[columns[1]]
 
-                B1, B2, rho = rbsc.rbsc( \
+                B1, B2, rho2 = rbsc.rbsc( \
                     len(dataframeB), \
                     userSelectlist, \
                     userRhostarB, \
@@ -211,7 +211,13 @@ def rbscApp():
             elapsed_time = time.time() - start_time
 
         st.success('Done!')
-        st.success(f'Your RBSC corfficient: {rho}')
+        if MULTI is not True:
+            st.success(f'Your RBSC corfficient: {rho}')
+        else:
+            st.success(f'Yout RBSC corfficient of {columns[0]}: {rho}')
+            st.success(f'Yout RBSC corfficient of {columns[1]}: {rho1} and {rho2}')
+        # RBSCの値も二つ分？3つ分では？
+        # BMIでつくった部分集合，Aをglucoseで作った部分集合，Bをglcoseで作った部分集合
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
    howto = '[How to use?](https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54)'
