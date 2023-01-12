@@ -8,7 +8,9 @@ import rbsc_st as rbsc
 import csv
 import time
 
-def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
+def st_print(LISTSIZE, SELECTLIST, A, B, NBINS, column = None):
+    if column is not None:
+        st.write(f'[{column}]')
 
     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
@@ -31,9 +33,16 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # histはヒストログラムの値．
     # bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
 
+
+def dataframe_loc(dataframe, X):
+    return dataframe.loc[X.index].reset_index(drop=True)
+
 def output_df(dataframe,A,B):
-    csvA=dataframe.loc[A.index].reset_index(drop=True).to_csv(index=False)
-    csvB=dataframe.loc[B.index].reset_index(drop=True).to_csv(index=False)
+    dataframeA = dataframe_loc(dataframe,A)
+    dataframeB = dataframe_loc(dataframe,B)
+
+    csvA=dataframeA.to_csv(index=False)
+    csvB=dataframeB.to_csv(index=False)
 
     col0, col1 = st.columns(2)
 
@@ -54,10 +63,21 @@ def output_df(dataframe,A,B):
             mime='text/csv'
         )
 
+def check_userRhostar(userRhostar, name = None):
+    if userRhostar >= -1 and userRhostar <= 1:
+        if name == None:
+            st.info(f'Your RBSC coefficient: {userRhostar}')
+        else:
+            st.info(f'Your RBSC coefficient of {name}: {userRhostar}')
+    else:
+        st.error("⚠ The range of RBSC coefficient must be between -1 and 1.")   
+
 def rbscApp():
    st.title('RBSC-SubGen')
 
    userListsize = 0
+   MAX_SELECT = 2
+   MULTI = False
 
    st.subheader('1. Data upload')
 
@@ -68,14 +88,21 @@ def rbscApp():
 
         st.write(dataframe)
 
-        columns = st.selectbox(
-            'Select the columns you wish to apply to RBSC-SubGen.',
-            (df_columns)
+        columns = st.multiselect(
+            'Select the columns you want to apply to RBSC-SubGen.',
+            (df_columns),
+            max_selections = MAX_SELECT
         )
 
-        read_data = dataframe[columns]
-        userListsize = len(read_data)
+        userListsize=len(dataframe)
         st.info(f'Your number of data points: {userListsize}')
+
+        columns_len = len(columns)
+
+        if columns_len == MAX_SELECT-1 or columns_len == MAX_SELECT:
+            read_data = dataframe[columns[0]]
+            if columns_len == MAX_SELECT:
+                MULTI = True
 
    st.subheader('2. Input parameters')
 
@@ -84,18 +111,25 @@ def rbscApp():
    with col0:
         st.write("[Subset size]")
         userSelectlist = math.floor(st.number_input('Insert subset size'))
-        if userListsize <= userSelectlist:
+
+        if MULTI and userListsize <= userSelectlist*8:
+            st.error("⚠ The subset size must be less than one-eighth of the universal set size.")
+        elif userListsize <= userSelectlist:
             st.error("⚠ The subset size must be smaller than the universal set size.")
         else:
             st.info(f'Your Subset size: {userSelectlist}')
 
    with col1:
         st.write("[RBSC coefficient]")
-        userRhostar=st.number_input('Insert RBSC coefficient')
-        if userRhostar >= -1 and userRhostar <= 1:
-            st.info(f'Your RBSC coefficient: {userRhostar}')
+        
+        if MULTI is not True:
+            userRhostar=st.number_input('Insert RBSC coefficient')
+            check_userRhostar(userRhostar)
         else:
-            st.error("⚠ The range of RBSC coefficient must be between -1 and 1.")
+            userRhostarA = st.number_input(f'Insert RBSC coefficient of: {columns[0]}')
+            check_userRhostar(userRhostarA,columns[0])
+            userRhostarB = st.number_input(f'Insert RBSC coefficient of: {columns[1]}')
+            check_userRhostar(userRhostarB,columns[1])
 
    with col2:
         st.write("[Tolerable error]")
@@ -122,17 +156,57 @@ def rbscApp():
    if st.button('Run'):
         with st.spinner('running...'):
             start_time = time.time()
-            A, B, rho = rbsc.rbsc( \
-                userListsize, \
-                userSelectlist, \
-                userRhostar, \
-                userEps, \
-                read_data, \
-                userMaxtrials)
+            
+            if MULTI is not True:
+                A1, B2, rho = rbsc.rbsc( \
+                    userListsize, \
+                    userSelectlist, \
+                    userRhostar, \
+                    userEps, \
+                    read_data, \
+                    userMaxtrials)
+            else:
+                A, B, rho = rbsc.rbsc( \
+                    userListsize, \
+                    userSelectlist*4, \
+                    userRhostarA, \
+                    userEps, \
+                    read_data, \
+                    userMaxtrials)
 
-            st_print(userListsize, userSelectlist, A, B, userNBins)
+                dataframeA=dataframe_loc(dataframe, A)
+                dataframeB=dataframe_loc(dataframe, B) 
+            
+                read_dataA = dataframeA[columns[1]]
 
-            output_df(dataframe,A,B)
+                A1, A2, rho = rbsc.rbsc( \
+                    len(dataframeA), \
+                    userSelectlist, \
+                    userRhostarB, \
+                    userEps, \
+                    read_dataA, \
+                    userMaxtrials)
+                
+                read_dataB = dataframeB[columns[1]]
+
+                B1, B2, rho = rbsc.rbsc( \
+                    len(dataframeB), \
+                    userSelectlist, \
+                    userRhostarB, \
+                    userEps, \
+                    read_dataB, \
+                    userMaxtrials)
+
+                dataframeA1=dataframe_loc(dataframeA,A1)
+                dataframeB2=dataframe_loc(dataframeB,B2)
+
+            if MULTI is not True:
+                st_print(userListsize, userSelectlist, A1, B2, userNBins)
+            else:
+                st_print(userListsize, userSelectlist, dataframeA1[columns[0]], dataframeB2[columns[0]], userNBins, columns[0])
+                st_print(userListsize, userSelectlist, A1, B2, userNBins, columns[1])
+
+            output_df(dataframe,A1,B2)
 
             elapsed_time = time.time() - start_time
 
