@@ -8,13 +8,9 @@ import rbsc_st as rbsc
 import csv
 import time
 
-def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
-
-    """
-    TODO:
-    ヒストグラムは各項目の分布なので複数ある場合その分だけ必要
-    ヒストグラムの中身を確認
-    """
+def st_print(LISTSIZE, SELECTLIST, A, B, NBINS, column = None):
+    if column is not None:
+        st.write(f'[{column}]')
 
     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
@@ -36,6 +32,7 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
     # 戻り値は2つの配列．
     # histはヒストログラムの値．
     # bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
+
 
 def dataframe_loc(dataframe, X):
     return dataframe.loc[X.index].reset_index(drop=True)
@@ -200,7 +197,14 @@ def rbscApp():
                     read_dataB, \
                     userMaxtrials)
 
-            st_print(userListsize, userSelectlist, A1, B2, userNBins)
+                dataframeA1=dataframe_loc(dataframeA,A1)
+                dataframeB2=dataframe_loc(dataframeB,B2)
+
+            if MULTI is not True:
+                st_print(userListsize, userSelectlist, A1, B2, userNBins)
+            else:
+                st_print(userListsize, userSelectlist, dataframeA1[columns[0]], dataframeB2[columns[0]], userNBins, columns[0])
+                st_print(userListsize, userSelectlist, A1, B2, userNBins, columns[1])
 
             output_df(dataframe,A1,B2)
 
