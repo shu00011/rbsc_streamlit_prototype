@@ -10,6 +10,12 @@ import time
 
 def st_print(LISTSIZE, SELECTLIST, A, B, NBINS):
 
+    """
+    TODO:
+    ヒストグラムは各項目の分布なので複数ある場合その分だけ必要
+    ヒストグラムの中身を確認
+    """
+
     A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
     B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
 
@@ -108,7 +114,10 @@ def rbscApp():
    with col0:
         st.write("[Subset size]")
         userSelectlist = math.floor(st.number_input('Insert subset size'))
-        if userListsize <= userSelectlist:
+
+        if MULTI and userListsize <= userSelectlist*8:
+            st.error("⚠ The subset size must be less than one-eighth of the universal set size.")
+        elif userListsize <= userSelectlist:
             st.error("⚠ The subset size must be smaller than the universal set size.")
         else:
             st.info(f'Your Subset size: {userSelectlist}')
@@ -167,19 +176,6 @@ def rbscApp():
                     userEps, \
                     read_data, \
                     userMaxtrials)
-
-"""
-TODO: このuserSelectlistは2倍にすると，
-2回目（A1とA2を作成するとき）にz-yが0になって上手く処理できない．
-(n=s*2としているため)
-
-また，同様の理由でuserSelectlistにuserListsizeの4倍の値をユーザが入力して
-しまうと，2回目の処理の時に
-selectlistの要素数とlistsizeの値が等しくなってしまうため，
-RBSC-SubGenアルゴリズムが上手く働かない．
-
-どのくらいに設定すべきか？
-"""
 
                 dataframeA=dataframe_loc(dataframe, A)
                 dataframeB=dataframe_loc(dataframe, B) 
