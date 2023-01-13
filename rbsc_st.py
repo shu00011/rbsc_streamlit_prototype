@@ -4,10 +4,6 @@
 # Random sampling without replacement: random.sample()
 
 import numpy as np
-import random
-import datetime
-import pickle
-import time
 import pandas as pd
 
 # MAXITER: counter　n回まで
@@ -158,8 +154,6 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
 
 
 def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
-
-    # NBINS:階級数．ヒストグラムの棒の数？
 
     if LISTSIZE <= SELECTLIST:
         return

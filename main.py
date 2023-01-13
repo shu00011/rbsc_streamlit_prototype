@@ -1,11 +1,9 @@
 import streamlit as st
 import streamlit_ext as ste
 import math
-# import io
 import pandas as pd
 import numpy as np
 import rbsc_st as rbsc
-# import csv
 import time
 
 
@@ -84,7 +82,7 @@ def rbscApp():
     st.markdown(f'''
     <a href={url}><button style="background-color:white; border-radius: 5px; border: 1px solid; border-color: #d3d3d3; margin: 5px; color:#6495ed;">How to use?</button></a>
     ''',
-    unsafe_allow_html=True)
+                unsafe_allow_html=True)
 
     userListsize = 0
     MAX_SELECT = 2
@@ -220,7 +218,8 @@ def rbscApp():
             if MULTI is not True:
                 ht_print(A1, B2, userNBins)
             else:
-                ht_print(dataframeA1[columns[0]], dataframeB2[columns[0]], userNBins, columns[0])
+                ht_print(dataframeA1[columns[0]],
+                         dataframeB2[columns[0]], userNBins, columns[0])
                 ht_print(A1, B2, userNBins, columns[1])
 
             output_df(dataframe, A1, B2)
@@ -237,8 +236,6 @@ def rbscApp():
 
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
-    # howto = '[How to use?](https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54)'
-    # st.markdown(howto, unsafe_allow_html=True)
 
 def main():
     rbscApp()
