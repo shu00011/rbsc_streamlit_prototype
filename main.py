@@ -1,19 +1,20 @@
 import streamlit as st
 import streamlit_ext as ste
 import math
-import io
+# import io
 import pandas as pd
 import numpy as np
 import rbsc_st as rbsc
-import csv
+# import csv
 import time
 
-def st_print(LISTSIZE, SELECTLIST, A, B, NBINS, column = None):
+
+def ht_print(A, B, NBINS, column=None):
     if column is not None:
         st.write(f'[{column}]')
 
-    A_hist, bin_edges = np.histogram(A, bins = NBINS, density=True)
-    B_hist, bin_edges = np.histogram(B, bins = NBINS, density=True)
+    A_hist, bin_edges = np.histogram(A, bins=NBINS, density=True)
+    B_hist, bin_edges = np.histogram(B, bins=NBINS, density=True)
 
     col0, col1 = st.columns(2)
 
@@ -37,12 +38,13 @@ def st_print(LISTSIZE, SELECTLIST, A, B, NBINS, column = None):
 def dataframe_loc(dataframe, X):
     return dataframe.loc[X.index].reset_index(drop=True)
 
-def output_df(dataframe,A,B):
-    dataframeA = dataframe_loc(dataframe,A)
-    dataframeB = dataframe_loc(dataframe,B)
 
-    csvA=dataframeA.to_csv(index=False)
-    csvB=dataframeB.to_csv(index=False)
+def output_df(dataframe, A, B):
+    dataframeA = dataframe_loc(dataframe, A)
+    dataframeB = dataframe_loc(dataframe, B)
+
+    csvA = dataframeA.to_csv(index=False)
+    csvB = dataframeB.to_csv(index=False)
 
     col0, col1 = st.columns(2)
 
@@ -63,27 +65,37 @@ def output_df(dataframe,A,B):
             mime='text/csv'
         )
 
-def check_userRhostar(userRhostar, name = None):
+
+def check_userRhostar(userRhostar, name=None):
     if userRhostar >= -1 and userRhostar <= 1:
         if name == None:
             st.info(f'Your RBSC coefficient: {userRhostar}')
         else:
             st.info(f'Your RBSC coefficient of {name}: {userRhostar}')
     else:
-        st.error("⚠ The range of RBSC coefficient must be between -1 and 1.")   
+        st.error("⚠ The range of RBSC coefficient must be between -1 and 1.")
+
 
 def rbscApp():
-   st.title('RBSC-SubGen')
+    st.title('RBSC-SubGen')
 
-   userListsize = 0
-   MAX_SELECT = 2
-   MULTI = False
+    url = 'https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54'
 
-   st.subheader('1. Data upload')
+    st.markdown(f'''
+    <a href={url}><button style="background-color:white; border-radius: 5px; border: 1px solid; border-color: #d3d3d3; margin: 5px; color:#6495ed;">How to use?</button></a>
+    ''',
+    unsafe_allow_html=True)
 
-   uploaded_file = st.file_uploader('Load a CSV data file',type='csv')
-   if uploaded_file is not None:
-        dataframe = pd.read_csv(uploaded_file).drop(columns='Unnamed: 0', errors = 'ignore')
+    userListsize = 0
+    MAX_SELECT = 2
+    MULTI = False
+
+    st.subheader('1. Data upload')
+
+    uploaded_file = st.file_uploader('Load a CSV data file', type='csv')
+    if uploaded_file is not None:
+        dataframe = pd.read_csv(uploaded_file).drop(
+            columns='Unnamed: 0', errors='ignore')
         df_columns = dataframe.columns.values
 
         st.write(dataframe)
@@ -91,10 +103,10 @@ def rbscApp():
         columns = st.multiselect(
             'Select the columns you want to apply to RBSC-SubGen.',
             (df_columns),
-            max_selections = MAX_SELECT
+            max_selections=MAX_SELECT
         )
 
-        userListsize=len(dataframe)
+        userListsize = len(dataframe)
         st.info(f'Your number of data points: {userListsize}')
 
         columns_len = len(columns)
@@ -104,109 +116,114 @@ def rbscApp():
             if columns_len == MAX_SELECT:
                 MULTI = True
 
-   st.subheader('2. Input parameters')
+    st.subheader('2. Input parameters')
 
-   col0, col1, col2 = st.columns(3)
+    col0, col1, col2 = st.columns(3)
 
-   with col0:
+    with col0:
         st.write("[Subset size]")
         userSelectlist = math.floor(st.number_input('Insert subset size'))
 
         if MULTI and userListsize <= userSelectlist*8:
-            st.error("⚠ The subset size must be less than one-eighth of the universal set size.")
+            st.error(
+                "⚠ The subset size must be less than one-eighth of the universal set size.")
         elif userListsize <= userSelectlist:
-            st.error("⚠ The subset size must be smaller than the universal set size.")
+            st.error(
+                "⚠ The subset size must be smaller than the universal set size.")
         else:
             st.info(f'Your Subset size: {userSelectlist}')
 
-   with col1:
+    with col1:
         st.write("[RBSC coefficient]")
-        
+
         if MULTI is not True:
-            userRhostar=st.number_input('Insert RBSC coefficient')
+            userRhostar = st.number_input('Insert RBSC coefficient')
             check_userRhostar(userRhostar)
         else:
-            userRhostarA = st.number_input(f'Insert RBSC coefficient of: {columns[0]}')
-            check_userRhostar(userRhostarA,columns[0])
-            userRhostarB = st.number_input(f'Insert RBSC coefficient of: {columns[1]}')
-            check_userRhostar(userRhostarB,columns[1])
+            userRhostarA = st.number_input(
+                f'Insert RBSC coefficient of: {columns[0]}')
+            check_userRhostar(userRhostarA, columns[0])
+            userRhostarB = st.number_input(
+                f'Insert RBSC coefficient of: {columns[1]}')
+            check_userRhostar(userRhostarB, columns[1])
 
-   with col2:
+    with col2:
         st.write("[Tolerable error]")
-        userEps=st.number_input('Insert tolerable error')
+        userEps = st.number_input('Insert tolerable error')
         if userEps < 0:
             st.error("⚠ Tolerable error must be an absolute value.")
         else:
             st.info(f'Your tolerable error: {userEps}')
 
-   with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
+    with st.expander('🤔 If you cannot create the expected subset, change Max. number of trials.'):
         st.write('[Max. number of trials]')
-        userMaxtrials=math.floor(st.number_input('Insert Max. number of trials', value = 30))
+        userMaxtrials = math.floor(st.number_input(
+            'Insert Max. number of trials', value=30))
         st.info(f'Your number of bins: {userMaxtrials}')
 
-   st.subheader('3. Visualization parameters')
+    st.subheader('3. Visualization parameters')
 
-   st.write("[Number of histogram bins]")
-   userNBins=math.floor(st.number_input('Insert number of histogram bins'))
-   if userNBins < 1:
+    st.write("[Number of histogram bins]")
+    userNBins = math.floor(st.number_input('Insert number of histogram bins'))
+    if userNBins < 1:
         st.error("⚠ Number of bins must be greater than or equal to 1.")
-   else:
-       st.info(f'Your number of bins: {userNBins}')
+    else:
+        st.info(f'Your number of bins: {userNBins}')
 
-   if st.button('Run'):
+    if st.button('Run'):
         with st.spinner('running...'):
             start_time = time.time()
-            
+
             if MULTI is not True:
-                A1, B2, rho = rbsc.rbsc( \
-                    userListsize, \
-                    userSelectlist, \
-                    userRhostar, \
-                    userEps, \
-                    read_data, \
+                A1, B2, rho = rbsc.rbsc(
+                    userListsize,
+                    userSelectlist,
+                    userRhostar,
+                    userEps,
+                    read_data,
                     userMaxtrials)
             else:
-                A, B, rho = rbsc.rbsc( \
-                    userListsize, \
-                    userSelectlist*4, \
-                    userRhostarA, \
-                    userEps, \
-                    read_data, \
+                A, B, rho = rbsc.rbsc(
+                    userListsize,
+                    userSelectlist*4,
+                    userRhostarA,
+                    userEps,
+                    read_data,
                     userMaxtrials)
 
-                dataframeA=dataframe_loc(dataframe, A)
-                dataframeB=dataframe_loc(dataframe, B) 
-            
+                dataframeA = dataframe_loc(dataframe, A)
+                dataframeB = dataframe_loc(dataframe, B)
+
                 read_dataA = dataframeA[columns[1]]
 
-                A1, A2, rho1 = rbsc.rbsc( \
-                    len(dataframeA), \
-                    userSelectlist, \
-                    userRhostarB, \
-                    userEps, \
-                    read_dataA, \
+                A1, A2, rho1 = rbsc.rbsc(
+                    len(dataframeA),
+                    userSelectlist,
+                    userRhostarB,
+                    userEps,
+                    read_dataA,
                     userMaxtrials)
-                
+
                 read_dataB = dataframeB[columns[1]]
 
-                B1, B2, rho2 = rbsc.rbsc( \
-                    len(dataframeB), \
-                    userSelectlist, \
-                    userRhostarB, \
-                    userEps, \
-                    read_dataB, \
+                B1, B2, rho2 = rbsc.rbsc(
+                    len(dataframeB),
+                    userSelectlist,
+                    userRhostarB,
+                    userEps,
+                    read_dataB,
                     userMaxtrials)
 
-                dataframeA1=dataframe_loc(dataframeA,A1)
-                dataframeB2=dataframe_loc(dataframeB,B2)
+                dataframeA1 = dataframe_loc(dataframeA, A1)
+                dataframeB2 = dataframe_loc(dataframeB, B2)
 
             if MULTI is not True:
-                st_print(userListsize, userSelectlist, A1, B2, userNBins)
+                ht_print(A1, B2, userNBins)
             else:
-                st_print(userListsize, userSelectlist, dataframeA1[columns[0]], dataframeB2[columns[0]], userNBins, columns[0])
-                st_print(userListsize, userSelectlist, A1, B2, userNBins, columns[1])
+                ht_print(dataframeA1[columns[0]], dataframeB2[columns[0]], userNBins, columns[0])
+                ht_print(A1, B2, userNBins, columns[1])
 
-            output_df(dataframe,A1,B2)
+            output_df(dataframe, A1, B2)
 
             elapsed_time = time.time() - start_time
 
@@ -215,17 +232,17 @@ def rbscApp():
             st.success(f'Your RBSC corfficient: {rho}')
         else:
             st.success(f'Yout RBSC corfficient of {columns[0]}: {rho}')
-            st.success(f'Yout RBSC corfficient of {columns[1]}: {rho1} and {rho2}')
-        # RBSCの値も二つ分？3つ分では？
-        # BMIでつくった部分集合，Aをglucoseで作った部分集合，Bをglcoseで作った部分集合
+            st.success(
+                f'Yout RBSC corfficient of {columns[1]}: {rho1} and {rho2}')
+
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
-   howto = '[How to use?](https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54)'
-   st.markdown(howto, unsafe_allow_html=True)
-
+    # howto = '[How to use?](https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54)'
+    # st.markdown(howto, unsafe_allow_html=True)
 
 def main():
     rbscApp()
+
 
 if __name__ == "__main__":
     main()

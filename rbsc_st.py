@@ -13,6 +13,7 @@ import pandas as pd
 # MAXITER: counter　n回まで
 # NBINS: 階級数．ヒストグラムの棒の数？
 
+
 def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説を立てている
     favor, unfavor = 0, 0
     for d1 in score1:
@@ -27,7 +28,6 @@ def get_rbsc(score1, score2):  # score1が高いとrhoが高くなると仮説�
 
 # 標準偏差
 def my_snippet(l, s, rho_star, e, elements, MAXITER):
-
     """
     全体集合xの中から大きさsのyを取り出して2等分する
     →この繰り返しがcounter
@@ -49,12 +49,12 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
             counter1 = 0
             while counter1 < MAXITER:
                 counter1 += 1
-                w = z.sample() # w: 配列=zのなかから1こずつランダムに選ぶ
+                w = z.sample()  # w: 配列=zのなかから1こずつランダムに選ぶ
                 """
                 wがy1より大きければy1にwを加える→y1の平均値をどんどん高くする
                 """
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y1) < wf):  # meanは引数の平均．
                     y1 = pd.concat([y1, w])
                     z = z.drop(w_index)
@@ -64,8 +64,8 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
             while counter2 < MAXITER:
                 counter2 += 1
                 w = y1.sample()  # w = y1から1こずつランダムに選ぶ
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y1) > wf):  # y1のAVGよりもwが小さい→wを抜く
                     y1 = y1.drop(w_index)
                     z = pd.concat([z, w])
@@ -76,21 +76,21 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
             while counter3 < MAXITER:
                 counter3 += 1
                 w = z.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y2) > wf):
                     y2 = pd.concat([y2, w])
-                    z=z.drop(w_index)
+                    z = z.drop(w_index)
                     break
 
             counter4 = 0
             while counter4 < MAXITER:
                 counter4 += 1
                 w = y2.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y2) < wf):
-                    y2=y2.drop(w_index)
+                    y2 = y2.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -99,21 +99,21 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
             while counter5 < MAXITER:
                 counter5 += 1
                 w = z.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y2) < wf):
                     y2 = pd.concat([y2, w])
-                    z=z.drop(w_index)
+                    z = z.drop(w_index)
                     break
 
             counter6 = 0
             while counter6 < MAXITER:
                 counter6 += 1
                 w = y2.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y2) > w):
-                    y2=y2.drop(w_index)
+                    y2 = y2.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -121,21 +121,21 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
             while counter7 < MAXITER:
                 counter7 += 1
                 w = z.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y1) > wf):
                     y1 = pd.concat([y1, w])
-                    z=z.drop(w_index)
+                    z = z.drop(w_index)
                     break
 
             counter8 = 0
             while counter8 < MAXITER:
                 counter8 += 1
                 w = y1.sample()
-                wf=w.iloc[-1]
-                w_index=w.index
+                wf = w.iloc[-1]
+                w_index = w.index
                 if (np.mean(y1) < wf):
-                    y1=y1.drop(w_index)
+                    y1 = y1.drop(w_index)
                     z = pd.concat([z, w])
                     break
 
@@ -156,6 +156,7 @@ def my_snippet(l, s, rho_star, e, elements, MAXITER):
     EPS：誤差e．大きければアルゴリズムはすぐに収束する．
     """
 
+
 def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
 
     # NBINS:階級数．ヒストグラムの棒の数？
@@ -163,13 +164,12 @@ def rbsc(LISTSIZE, SELECTLIST, RHO_STAR, EPS, elements, MAXITER):
     if LISTSIZE <= SELECTLIST:
         return
 
-    A, B, rho = my_snippet( \
-        LISTSIZE, \
-        SELECTLIST, \
-        RHO_STAR, \
-        EPS, \
-        elements, \
+    A, B, rho = my_snippet(
+        LISTSIZE,
+        SELECTLIST,
+        RHO_STAR,
+        EPS,
+        elements,
         MAXITER)
 
     return A, B, rho
-
