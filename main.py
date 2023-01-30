@@ -230,9 +230,9 @@ def rbscApp():
         if MULTI is not True:
             st.success(f'Your RBSC corfficient: {rho}')
         else:
-            st.success(f'Yout RBSC corfficient of {columns[0]}: {rho}')
+            st.success(f'Your RBSC corfficient of {columns[0]}: {rho}')
             st.success(
-                f'Yout RBSC corfficient of {columns[1]}: {rho1} and {rho2}')
+                f'Your RBSC corfficient of {columns[1]}: {rho1} and {rho2}')
 
         st.success('Time elapsed %2.2f sec' % elapsed_time)
 
