@@ -157,7 +157,7 @@ def rbscApp():
         st.write('[Max. number of trials]')
         userMaxtrials = math.floor(st.number_input(
             'Insert Max. number of trials', value=30))
-        st.info(f'Your number of bins: {userMaxtrials}')
+        st.info(f'Your number of Max. number of trials: {userMaxtrials}')
 
     st.subheader('3. Visualization parameters')
 
