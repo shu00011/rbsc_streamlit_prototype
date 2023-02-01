@@ -164,9 +164,9 @@ def rbscApp():
     st.write("[Number of histogram bins]")
     userNBins = math.floor(st.number_input('Insert number of histogram bins'))
     if userNBins < 1:
-        st.error("⚠ Number of bins must be greater than or equal to 1.")
+        st.error("⚠ Number of histogram bins must be greater than or equal to 1.")
     else:
-        st.info(f'Your number of bins: {userNBins}')
+        st.info(f'Your number of histogram bins: {userNBins}')
 
     if st.button('Run'):
         with st.spinner('running...'):
