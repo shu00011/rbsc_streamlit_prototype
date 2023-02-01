@@ -5,24 +5,36 @@ import pandas as pd
 import numpy as np
 import rbsc_st as rbsc
 import time
+import matplotlib.pyplot as plt
 
 
 def ht_print(A, B, NBINS, column=None):
     if column is not None:
-        st.write(f'[{column}]')
+        st.info(f'Histograms of distribution of [{column}]')
+    else:
+        st.info('Histframs of distribution')
 
-    A_hist, bin_edges = np.histogram(A, bins=NBINS, density=True)
-    B_hist, bin_edges = np.histogram(B, bins=NBINS, density=True)
+    # st.bar_chart
+    # A_hist, bin_edges = np.histogram(A, bins=NBINS, density=True)
+    # B_hist, bin_edges = np.histogram(B, bins=NBINS, density=True)
+
+    figA, axA = plt.subplots()
+    axA.hist(A,bins=NBINS)
+
+    figB, axB = plt.subplots()
+    axB.hist(B,bins=NBINS)
 
     col0, col1 = st.columns(2)
 
     with col0:
         st.write('a histogram of distribution of subset A values')
-        st.bar_chart(A_hist)
+        # st.bar_chart(A_hist)
+        st.pyplot(figA)
 
     with col1:
         st.write('a histogram of distribution of subset B values')
-        st.bar_chart(B_hist)
+        # st.bar_chart(B_hist)
+        st.pyplot(figB)
 
     # histogram(ヒストグラムを計算するための入力データ,bins,density)
     # bins 整数，文字列，またはスカラーのシーケンス．ビンの数を表す．ビンは範囲のようなもの．
@@ -99,7 +111,7 @@ def rbscApp():
         st.write(dataframe)
 
         columns = st.multiselect(
-            'Select the columns you want to apply to RBSC-SubGen.',
+            ':point_right: Select the columns you want to apply to RBSC-SubGen.',
             (df_columns),
             max_selections=MAX_SELECT
         )
@@ -139,10 +151,10 @@ def rbscApp():
             check_userRhostar(userRhostar)
         else:
             userRhostarA = st.number_input(
-                f'Insert RBSC coefficient of: {columns[0]}')
+                f'Insert RBSC coefficient of [{columns[0]}]')
             check_userRhostar(userRhostarA, columns[0])
             userRhostarB = st.number_input(
-                f'Insert RBSC coefficient of: {columns[1]}')
+                f'Insert RBSC coefficient of [{columns[1]}]')
             check_userRhostar(userRhostarB, columns[1])
 
     with col2:
@@ -222,11 +234,12 @@ def rbscApp():
                          dataframeB2[columns[0]], userNBins, columns[0])
                 ht_print(A1, B2, userNBins, columns[1])
 
+            st.info('Subsets dataframe')
             output_df(dataframe, A1, B2)
 
             elapsed_time = time.time() - start_time
 
-        st.success('Done!')
+        # st.success('Done!')
         if MULTI is not True:
             st.success(f'Your RBSC corfficient: {rho}')
         else:
