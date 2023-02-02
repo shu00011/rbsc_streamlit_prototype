@@ -1,7 +1,7 @@
 # rbsc_streamlit_prototype
 
 ## 概要
-RBSCアルゴリズムをWebアプリケーション上で利用できるようにしました．
+RBSC-SubGenをWebアプリケーション上で利用できるようにしました．
 
 ## 使用技術
 - Python 3.11.1
