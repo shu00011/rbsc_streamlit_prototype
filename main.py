@@ -14,10 +14,6 @@ def ht_print(A, B, NBINS, column=None):
     else:
         st.info('Histframs of distribution')
 
-    # st.bar_chart
-    # A_hist, bin_edges = np.histogram(A, bins=NBINS, density=True)
-    # B_hist, bin_edges = np.histogram(B, bins=NBINS, density=True)
-
     figA, axA = plt.subplots()
     axA.hist(A,bins=NBINS)
 
@@ -28,12 +24,10 @@ def ht_print(A, B, NBINS, column=None):
 
     with col0:
         st.write('a histogram of distribution of subset A values')
-        # st.bar_chart(A_hist)
         st.pyplot(figA)
 
     with col1:
         st.write('a histogram of distribution of subset B values')
-        # st.bar_chart(B_hist)
         st.pyplot(figB)
 
     # histogram(ヒストグラムを計算するための入力データ,bins,density)
@@ -43,7 +37,6 @@ def ht_print(A, B, NBINS, column=None):
     # 戻り値は2つの配列．
     # histはヒストログラムの値．
     # bin_edgesはビンエッジ．bin_edgesのサイズは常に1+histのサイズ．つまりlength(hist)+1
-
 
 def dataframe_loc(dataframe, X):
     return dataframe.loc[X.index].reset_index(drop=True)
