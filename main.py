@@ -82,7 +82,7 @@ def check_userRhostar(userRhostar, name=None):
 def rbscApp():
     st.title('RBSC-SubGen')
 
-    url = 'https://www.notion.so/RBSC-SubGen-26bc7321cd4443e4b9e4f51113519a54'
+    url = 'https://shu00011.github.io/RBSC-SubGen/'
 
     st.markdown(f'''
     <a href={url}><button style="background-color:white; border-radius: 5px; border: 1px solid; border-color: #d3d3d3; margin: 5px; color:#6495ed;">How to use?</button></a>
